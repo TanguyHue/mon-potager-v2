@@ -9,7 +9,7 @@ tmp
 .env.production.local
 .env.development.local
 
-
+public/assets
 public/users
 
 # Build tools specific
