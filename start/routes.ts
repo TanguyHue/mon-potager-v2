@@ -35,6 +35,7 @@ router
 
     router.get('/profile', [AdminController, 'profile']).as('profile')
     router.get('/settings', [AdminController, 'settings']).as('settings')
+    router.post('/settings', [AuthController, 'handleUpdate']).as('settings.update')
 
     router.post('/logout', [AuthController, 'logout']).as('logout')
   })

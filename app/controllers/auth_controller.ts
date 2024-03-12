@@ -1,7 +1,7 @@
-import { createAccount, loginAccount } from '#validators/auth'
+import { createAccount, loginAccount, updateAccount } from '#validators/auth'
 import type { HttpContext } from '@adonisjs/core/http'
 import User from '#models/user'
-import { writeFile } from 'node:fs'
+import { unlink, writeFile } from 'node:fs'
 import { toPng } from 'jdenticon'
 import app from '@adonisjs/core/services/app'
 import { cuid } from '@adonisjs/core/helpers'
@@ -45,5 +45,26 @@ export default class AuthController {
     const user = await User.create({ email, password, username, thumbnail: file })
     await auth.use('web').login(user)
     return response.redirect().toRoute('admin.dashboard')
+  }
+
+  async handleUpdate({ request, response, auth }: HttpContext) {
+    const { email, password, username, thumbnail } = await request.validateUsing(updateAccount)
+    const user = auth.user!
+    if (thumbnail) {
+      user.thumbnail ||
+        unlink(app.makePath(`public/users/${user.thumbnail}`), (err) => {
+          if (err) throw err
+          console.log('path/file.txt was deleted')
+        })
+      await thumbnail.move(app.makePath('public/users/'), {
+        name: `${cuid()}.${thumbnail.extname}`,
+      })
+      user.thumbnail = `/users/${thumbnail.fileName}`
+    }
+    user.email = email ?? user.email
+    user.password = password ?? user.password
+    user.username = username ?? user.username
+    await user.save()
+    return response.redirect().back()
   }
 }
