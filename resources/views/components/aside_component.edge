@@ -1,3 +1,4 @@
+@if(!exit)
 <li>
   <a href="{{redirect}}" class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
      @svg(path, {
@@ -10,3 +11,22 @@
      @end
   </a>
 </li>
+@else
+<li>
+  <form action="{{redirect}}" method="POST" class="flex items-center">
+    {{ csrfField() }}
+    <button type="submit" class="inline-flex 
+    items-center justify-center 
+    p-2 text-sm 
+    font-medium text-gray-900 
+    hover:bg-gray-100 rounded-lg dark:hover:bg-gray-700
+    dark:text-white w-full text-left">
+      @svg(path, {
+       width: 25,
+       height: 25,
+      })
+      <span class="flex-1 ms-3 whitespace-nowrap">{{name}}</span>
+    </button>
+  </form>
+</li>
+@end

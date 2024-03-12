@@ -1,26 +1,42 @@
-<aside id="logo-sidebar" class="fixed top-0 left-0 z-40 w-64 h-screen pt-20 transition-transform -translate-x-full bg-white border-r border-gray-200 sm:translate-x-0 dark:bg-gray-800 dark:border-gray-700" aria-label="Sidebar">
-   <div class="h-full px-3 pb-4 overflow-y-auto bg-white dark:bg-gray-800">
-      <ul class="space-y-2 font-medium">
-          @!component('components/aside_component', { 
-            redirect: route('admin.dashboard'),
-            path: 'uil:home-alt',
-            name: 'Dashboard',
-          })
-          @!component('components/aside_component', { 
-            redirect: route('admin.monpotager'),
-            path: 'uil:flower',
-            name: 'Mon Potager',
-          })
-          @!component('components/aside_component', { 
-            redirect: route('admin.agenda'),
-            path: 'uil:schedule',
-            name: 'Agenda',
-          })
-          @!component('components/aside_component', { 
-            redirect: route('admin.taches'),
-            path: 'uil:file-check',
-            name: 'A faire',
-          })
-      </ul>
-   </div>
+<aside id="logo-sidebar"
+  class="fixed top-0 left-0 z-40 w-64 h-screen pt-20 transition-transform -translate-x-full bg-white border-r border-gray-200 sm:translate-x-0 dark:bg-gray-800 dark:border-gray-700"
+  aria-label="Sidebar">
+  <div class="h-full px-3 pb-4 overflow-y-auto bg-white dark:bg-gray-800">
+    <ul class="space-y-2 font-medium">
+      @!component('components/aside_component', {
+      redirect: route('admin.dashboard'),
+      path: 'uil:home-alt',
+      name: 'Dashboard',
+      })
+      @!component('components/aside_component', {
+      redirect: route('admin.monpotager'),
+      path: 'uil:flower',
+      name: 'Mon Potager',
+      })
+      @!component('components/aside_component', {
+      redirect: route('admin.agenda'),
+      path: 'uil:schedule',
+      name: 'Agenda',
+      })
+      @!component('components/aside_component', {
+      redirect: route('admin.taches'),
+      path: 'uil:file-check',
+      name: 'A faire',
+      })
+    </ul>
+    <ul class="pt-4 mt-4 space-y-2 font-medium border-t border-gray-200 dark:border-gray-700">
+      @!component('components/aside_component', {
+        redirect: route('admin.settings'),
+        path: 'uil:setting',
+        name: 'Paramètres',
+        })
+      @!component('components/aside_component', {
+        redirect: route('admin.logout'),
+        path: 'uil:exit',
+        name: 'Se déconnecter',
+        exit: true,
+        })
+    </ul>
+  </div>
 </aside>
+  

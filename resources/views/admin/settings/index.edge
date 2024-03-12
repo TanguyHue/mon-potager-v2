@@ -3,4 +3,10 @@
 
 @include('partials/header')
 @include('admin/aside_bar')
+<div class="ml-64 p-10">
+  @!component('components/breadcrumb', { breadcrumbs: {
+  'Paramètres': false
+  }
+  })
+</div>
 @include('partials/footer')
