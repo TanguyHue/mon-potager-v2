@@ -1,6 +1,53 @@
 @let(title="Le projet")
 @let(project=true)
-
+@eval(await auth.use('web').check())
 @include('partials/header')
-  <h1> It Works! </h1>
+
+<div class="py-40 bg-gray-50 dark:bg-gray-900 flex justify-center">
+  <div class="container w-full">
+    <div class="flex flex-col items-center justify-center space-y-8">
+      <h1 class="text-4xl font-bold text-center text-gray-900 dark:text-gray-100 sm:text-5xl md:text-6xl">Mon Potager 🌱
+      </h1>
+      <p class="text-lg text-center text-gray-600 dark:text-gray-400 sm:text-xl md:text-2xl">Découvrez le projet et les
+        fonctionnalités de l'application</p>
+    </div>
+  </div>
+</div>
+
+<div class="pb-16 px-32 bg-gray-50 dark:bg-gray-900">
+  @!component('components/itemProject', { items: {
+        'Gestion de potager': [
+          'Créer et gérer votre potager',
+          'Ajouter des plantes et des légumes',
+          'Suivre l\'évolution de vos plantations'
+        ],
+        'Conseils et astuces': [
+          'Recevoir des conseils personnalisés',
+          'Suivre les recommandations de plantation',
+          'Apprendre à entretenir vos plantes'
+        ],
+        'Partage et échange': [
+          'Partager vos plantations avec la communauté',
+          'Échanger avec d\'autres jardiniers',
+          'Découvrir de nouvelles plantes'
+        ],
+        'Statistiques et suivi': [
+          'Suivre l\'évolution de vos plantations',
+          'Consulter des statistiques détaillées',
+          'Recevoir des alertes personnalisées'
+        ]
+      } })
+
+  @if(!auth.use('web').isAuthenticated)
+  <div class="mt-24 text-center">
+    <h1 class="text-xl font-bold text-gray-900 dark:text-gray-100 sm:text-2xl md:text-3xl mb-12">Alors, prêt à se lancer ?</h1>
+    <a href="{{ route('auth.register') }}" class="inline-block text-white bg-blue-700 hover:bg-blue-800 
+      focus:ring-4 focus:outline-none focus:ring-blue-300 
+      font-medium rounded-lg text-sm m-2 p-2 text-center 
+      dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800
+      transition-color duration-700 text-xl">Créer un
+      compte</a>
+  </div>
+  @end
+</div>
 @include('partials/footer')
