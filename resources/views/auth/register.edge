@@ -1,0 +1,17 @@
+@let(title="S'enregister")
+@let(buttonText="Se connecter")
+@let(buttonRedirection=route('auth.login'))
+
+@include('partials/header')
+<form action='' class="max-w-sm mx-auto mt-5" method="post" enctype="multipart/form-data">
+  {{ csrfField() }}
+  @!component('components/input', { title: 'username', label: "Indiquer votre nom d'utilisateur", required: true })
+  @!component('components/input', { title: 'email', label: 'Indiquez votre adresse mail', required: true, placeholder:
+  'abc@cde.fr', type: 'email' })
+  @!component('components/input', { title: 'password', label: 'Indiquez votre mot de passe', required: true, type:
+  'password'})
+  @!component('components/input', { title: 'thumbnail', label: "Ajouter une photo de profil (optionel)", type: 'file'})
+  @!component('components/button', { text: 'Créer votre compte' })
+</form>
+
+@include('partials/footer')

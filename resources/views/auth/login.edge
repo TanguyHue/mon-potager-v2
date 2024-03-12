@@ -1,0 +1,13 @@
+@let(title="Se connecter")
+
+@include('partials/header')
+<form action='' class="max-w-sm mx-auto mt-5" method="post">
+  {{ csrfField() }}
+  @!component('components/input', { title: 'email', label: 'Indiquez votre adresse mail', required: true, placeholder:
+  'abc@cde.fr', type: 'email' })
+  @!component('components/input', { title: 'password', label: 'Indiquez votre mot de passe', required: true, type:
+  'password'})
+  @!component('components/button', { text: 'Se connecter' })
+</form>
+
+@include('partials/footer')

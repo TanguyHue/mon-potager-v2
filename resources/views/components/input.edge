@@ -1,0 +1,26 @@
+@if(type == 'file')
+<div class="mb-5">
+  <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white" for="{{title}}">{{label}}</label>
+  <input class="block w-full text-sm text-gray-900 border border-gray-300 
+  rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none 
+  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400" 
+  id="{{title}}" type="file" name="{{title}}">
+</div>
+@else
+<div class="mb-5">
+    <label for="{{title}}" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">{{label}}</label>
+    <input type="{{type || "texte"}}" id="{{title}}" name="{{title}}"
+    class="bg-gray-50 border border-gray-300 text-gray-900 
+    text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 
+    block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 
+    dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" 
+    {{ placeholder? `placeholder=${placeholder}` : ''}} 
+    {{ required? 'required' : ''}}  />
+</div>
+@end
+
+@inputError(name)
+  @each(message in $messages)
+    <p class="">{{ message }}</p>
+  @end
+@end
