@@ -10,4 +10,9 @@
   @!component('components/button', { text: 'Se connecter' })
 </form>
 
+<div class="border-t-2 border-gray-300 max-w-sm mx-auto mt-5">
+  <p class="text-center mt-5">Vous n'avez pas de compte ?
+     <a href="{{ route('auth.register') }}" class="text-blue-500 hover:text-blue-700">Inscrivez-vous</a></p>
+</div>
+
 @include('partials/footer')
