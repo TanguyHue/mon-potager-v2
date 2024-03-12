@@ -20,10 +20,6 @@ export default class AuthController {
     return response.redirect().toRoute('home')
   }
 
-  dashboard({ view }: HttpContext) {
-    return view.render('admin/dashboard')
-  }
-
   async handleLogin({ request, auth, response }: HttpContext) {
     const { email, password } = await request.validateUsing(loginAccount)
     const user = await User.verifyCredentials(email, password)
