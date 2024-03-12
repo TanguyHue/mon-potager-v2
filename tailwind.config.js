@@ -5,7 +5,14 @@ export default {
     './resources/**/*.edge',
     './resources/**/*.{js,ts,jsx,tsx,vue}',
   ],
-  theme: {},
+  theme: {
+    extend: {
+      spacing: {
+        '180px': '180px',
+        '148px': '148px',
+      },
+    },
+  },
   plugins: [require('flowbite/plugin')],
   darkMode: 'class',
 }
