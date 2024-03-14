@@ -4,7 +4,7 @@ import hash from '@adonisjs/core/services/hash'
 import { compose } from '@adonisjs/core/helpers'
 import { BaseModel, column, hasMany } from '@adonisjs/lucid/orm'
 import type { HasMany } from '@adonisjs/lucid/types/relations'
-import Potager from '#models/potager'
+import PlantePosition from '#models/plante_position'
 import Tache from './tache.js'
 
 const AuthFinder = withAuthFinder(() => hash.use('scrypt'), {
@@ -34,8 +34,8 @@ export default class User extends compose(BaseModel, AuthFinder) {
   @column.dateTime({ autoCreate: true, autoUpdate: true })
   declare updatedAt: DateTime | null
 
-  @hasMany(() => Potager)
-  declare potagers: HasMany<typeof Potager>
+  @hasMany(() => PlantePosition)
+  declare potagers: HasMany<typeof PlantePosition>
 
   @hasMany(() => Tache)
   declare taches: HasMany<typeof Tache>

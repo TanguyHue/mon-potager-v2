@@ -3,10 +3,46 @@
 
 @include('partials/header')
 @include('admin/aside_bar')
-<div class="ml-64 p-10">
-@!component('components/breadcrumb', { breadcrumbs: {
-  'Mon potager': false
-}
-})
-</div>  
+<div class="ml-64">
+  <div class="p-10">
+    @!component('components/breadcrumb', { breadcrumbs: {
+    'Mon potager': false
+    }
+    })
+  </div>
+  @if(idPotager)
+  <div class="w-full px-8 py-4">
+    <a href="{{ route('admin.monpotager.create')}}" >
+      <button type="button" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none
+       focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center mb-
+       inline-flex items-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+        Ajouter un <span class="font-bold ml-1">potager</span>
+        <svg class="rtl:rotate-180 w-3.5 h-3.5 ms-2 mt-1" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
+          fill="none" viewBox="0 0 14 10">
+          <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+            d="M1 5h12m0 0L9 1m4 4L9 9" />
+        </svg>
+      </button>
+    </a>
+    @end
+    @each(potager in idPotager)
+    <div>
+      <p class="text-2xl font-bold text-white">{{potager.name}}</p>
+      @if(potager.description)
+      <p class="text-white mt-2">{{potager.description}}</p>
+      @end
+      <div class="flex justify-between items-center">
+      </div>
+    </div>
+    @else
+    <div class="flex justify-center items-center h-64 w-full">
+      <div class="text-center">
+        <p class="text-white py-10">Aucun potager pour le moment</p>
+      </div>
+    </div>
+    @if(idPotager)
+  </div>
+  @end
+</div>
+@end
 @include('partials/footer')

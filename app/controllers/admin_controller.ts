@@ -5,10 +5,6 @@ export default class AdminController {
     return view.render('admin/dashboard')
   }
 
-  monpotager({ view }: HttpContext) {
-    return view.render('admin/monpotager/index')
-  }
-
   agenda({ view }: HttpContext) {
     return view.render('admin/agenda/index')
   }
