@@ -16,14 +16,25 @@
     <form action='' class="max-w-sm mt-5" method="post" enctype="multipart/form-data">
       {{ csrfField() }}
       @!component('components/input', { title: 'name', label: "Nom du potager", required: true})
-      @!component('components/input', { title: 'description', label: 'Description', type: 'textarea'})
+      @!component('components/input', { title: 'description', label: 'Description', type: 'textarea', resize: true})
       @!component('components/input', { title: 'longueur', label: 'Longueur du potager', type: 'numberInput', min: 1,
-      max: 10, name: 'Longueur', svgIcon: 'uil:edit', required: true})
+      max: 10, name: 'Longueur', svgIcon: 'uil:edit'})
       @!component('components/input', { title: 'largeur', label: 'Largeur du potager', type: 'numberInput', min: 1,
       max: 10, name: 'Largeur', svgIcon: 'uil:edit', required: true})
       @!component('components/button', { text: 'Créer mon potager' })
     </form>
   </div>
+  <script>
+    document.addEventListener("DOMContentLoaded", function() {
+      var textarea = document.getElementById("description");
+  
+      textarea.addEventListener("input", function() {
+        if (textarea.value.length > 180) {
+          textarea.value = textarea.value.slice(0, 180);
+        }
+      });
+    });
+  </script>
 </div>
 @end
 @include('partials/footer')

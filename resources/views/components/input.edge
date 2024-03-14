@@ -16,11 +16,12 @@
 @if(type == 'textarea')
 <div class="mb-5">
   <label for="{{title}}" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">{{label}}</label>
-  <textarea id="{{title}}" name="{{title}}" rows="4" class="bg-gray-50
+  <textarea id="{{title}}" name="{{title}}" rows="4" class="{{ resize? 'resize-none' : '' }} bg-gray-50
       border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 
       focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 
-      dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" {{ placeholder?
-    `placeholder=${placeholder}` : '' }} {{ required? 'required' : '' }}>{{ old(title) || '' }}</textarea>
+      dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500
+      " {{ placeholder? `placeholder=${placeholder}` : '' }} {{ required? 'required'
+    : '' }}>{{ old(title) || '' }}</textarea>
 
   @inputError(title)
   @each(message in $messages)
@@ -40,8 +41,8 @@
       <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M1 1h16" />
     </svg>
   </button>
-  <input type="text" id="{{title}}" data-input-counter data-input-counter-min="{{min}}" data-input-counter-max="{{max}}"'' name="{{title}}"
-    class="bg-gray-50 border-x-0 border-gray-300 h-11 font-medium text-center text-gray-900 text-sm focus:ring-blue-500 
+  <input type="text" id="{{title}}" data-input-counter data-input-counter-min="{{min}}"
+    data-input-counter-max="{{max}}"'' name="{{title}}" class="bg-gray-50 border-x-0 border-gray-300 h-11 font-medium text-center text-gray-900 text-sm focus:ring-blue-500 
     focus:border-blue-500 block w-full pb-6 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white
     dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="" value="{{ old(title) || '5' }}" required />
   <div
