@@ -8,10 +8,16 @@ export default class Plante extends BaseModel {
   declare id: number
 
   @column()
+  declare user_id: number
+
+  @column()
   declare name: string
 
   @column()
   declare icon: string
+
+  @column()
+  declare delai_recolte: number
 
   @column.dateTime({ autoCreate: true })
   declare createdAt: DateTime

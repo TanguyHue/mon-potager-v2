@@ -27,6 +27,7 @@ export default class MonpotagersController {
         userId: auth.user?.id,
       },
     })
+
     await Potager.create({
       name,
       description,
@@ -57,12 +58,17 @@ export default class MonpotagersController {
     response.redirect().toRoute('admin/monpotager')
   }
 
-  async edit({ view }: HttpContext) {
-    return view.render('admin/monpotager/edit')
-  }
-
-  async handleDelete({ request, response }: HttpContext) {
+  async handleDelete({ request, response, auth }: HttpContext) {
     const potager = await Potager.findOrFail(request?.param('id'))
+
+    if (!potager) {
+      throw new Error('Potager not found')
+    }
+
+    if (potager.user_id !== auth.user?.id) {
+      throw new Error('Potager not found')
+    }
+
     await potager.delete()
     response.redirect().toRoute('admin.monpotager.index')
   }

@@ -1,5 +1,5 @@
 @if(type == 'file')
-<div class="m-5">
+<div class="my-5">
   <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white" for="{{title}}">{{label}}</label>
   <input class="block w-full text-sm text-gray-900 border border-gray-300 
   rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none 
@@ -14,7 +14,7 @@
 </div>
 @else
 @if(type == 'textarea')
-<div class="mb-5">
+<div class="my-5">
   <label for="{{title}}" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">{{label}}</label>
   <textarea id="{{title}}" name="{{title}}" rows="4" class="{{ resize? 'resize-none' : '' }} bg-gray-50
       border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 
@@ -44,7 +44,7 @@
   <input type="text" id="{{title}}" data-input-counter data-input-counter-min="{{min}}"
     data-input-counter-max="{{max}}"'' name="{{title}}" class="bg-gray-50 border-x-0 border-gray-300 h-11 font-medium text-center text-gray-900 text-sm focus:ring-blue-500 
     focus:border-blue-500 block w-full pb-6 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white
-    dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="" value="{{ old(title) || '5' }}" required />
+    dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="" value="{{ value? value : old(title) || value || '5' }}" required />
   <div
     class="absolute bottom-1 start-1/2 -translate-x-1/2 rtl:translate-x-1/2 flex items-center text-xs text-gray-400 space-x-1 rtl:space-x-reverse">
     @svg(svgIcon, 'h-2.5 w-2.5')
@@ -65,7 +65,7 @@
 @end
 @end
 @else
-<div class="mb-5">
+<div class="my-5">
   <label for="{{title}}" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">{{label}}</label>
   <input type="{{type || " texte"}}" id="{{title}}" name="{{title}}" value="{{ old(title) || '' }}" class="bg-gray-50 border border-gray-300 text-gray-900 
     text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 

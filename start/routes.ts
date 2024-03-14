@@ -10,6 +10,7 @@
 const AuthController = () => import('#controllers/auth_controller')
 import router from '@adonisjs/core/services/router'
 import { middleware } from './kernel.js'
+const PlantesController = () => import('#controllers/plantes_controller')
 const MonpotagersController = () => import('#controllers/monpotagers_controller')
 const AdminController = () => import('#controllers/admin_controller')
 
@@ -36,14 +37,25 @@ router
         router.post('/create', [MonpotagersController, 'handleCreate']).as('store')
         router.get('/:id', [MonpotagersController, 'show']).as('show')
         router.post('/:id', [MonpotagersController, 'handleUpdate']).as('update')
-        router.get('/:id/edit', [MonpotagersController, 'edit']).as('edit')
         router.post('/:id/delete', [MonpotagersController, 'handleDelete']).as('delete')
       })
       .as('monpotager')
       .prefix('monpotager')
+
     router.get('/agenda', [AdminController, 'agenda']).as('agenda')
     router.get('/taches', [AdminController, 'taches']).as('taches')
-    router.get('/plantations', [AdminController, 'plantations']).as('plantations')
+
+    router
+      .group(() => {
+        router.get('/', [PlantesController, 'index']).as('index')
+        router.get('/create', [PlantesController, 'create']).as('create')
+        router.post('/create', [PlantesController, 'handleCreate']).as('store')
+        router.get('/:id', [PlantesController, 'show']).as('show')
+        router.post('/:id', [PlantesController, 'handleUpdate']).as('update')
+        router.post('/:id/delete', [PlantesController, 'handleDelete']).as('delete')
+      })
+      .as('plantes')
+      .prefix('plantes')
 
     router.get('/profile', [AdminController, 'profile']).as('profile')
     router.get('/settings', [AdminController, 'settings']).as('settings')
