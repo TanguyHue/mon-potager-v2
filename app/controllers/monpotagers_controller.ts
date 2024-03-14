@@ -37,8 +37,19 @@ export default class MonpotagersController {
     return this.index({ view, auth } as HttpContext)
   }
 
-  async show({ view }: HttpContext) {
-    return view.render('admin/monpotager/show')
+  async show({ view, request, auth }: HttpContext) {
+    const idPotager = request.param('id')
+    const potager = await Potager.find(idPotager)
+
+    if (!potager) {
+      throw new Error('Potager not found')
+    }
+
+    if (potager.user_id !== auth.user?.id) {
+      throw new Error('Potager not found')
+    }
+
+    return view.render('admin/monpotager/show', { potager })
   }
 
   async handleUpdate({ response, session }: HttpContext) {
@@ -50,8 +61,9 @@ export default class MonpotagersController {
     return view.render('admin/monpotager/edit')
   }
 
-  async handleDelete({ response, session }: HttpContext) {
-    session.flash({ notification: 'Potager supprimé avec succès' })
-    response.redirect().toRoute('admin/monpotager')
+  async handleDelete({ request, response }: HttpContext) {
+    const potager = await Potager.findOrFail(request?.param('id'))
+    await potager.delete()
+    response.redirect().toRoute('admin.monpotager.index')
   }
 }
