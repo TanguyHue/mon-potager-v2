@@ -20,8 +20,8 @@
       border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 
       focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 
       dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500
-      " {{ placeholder? `placeholder=${placeholder}` : '' }} {{ required? 'required'
-    : '' }}>{{ old(title) || '' }}</textarea>
+      " {{ placeholder? `placeholder=${placeholder}` : '' }} {{ required? 'required' : ''
+    }}>{{ old(title) || '' }}</textarea>
 
   @inputError(title)
   @each(message in $messages)
@@ -44,7 +44,8 @@
   <input type="text" id="{{title}}" data-input-counter data-input-counter-min="{{min}}"
     data-input-counter-max="{{max}}"'' name="{{title}}" class="bg-gray-50 border-x-0 border-gray-300 h-11 font-medium text-center text-gray-900 text-sm focus:ring-blue-500 
     focus:border-blue-500 block w-full pb-6 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white
-    dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="" value="{{ value? value : old(title) || value || '5' }}" required />
+    dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder=""
+    value="{{ value? value : old(title) || value || '5' }}" required />
   <div
     class="absolute bottom-1 start-1/2 -translate-x-1/2 rtl:translate-x-1/2 flex items-center text-xs text-gray-400 space-x-1 rtl:space-x-reverse">
     @svg(svgIcon, 'h-2.5 w-2.5')

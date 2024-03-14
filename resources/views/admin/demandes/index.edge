@@ -13,7 +13,7 @@
   @if(demandesRecues)
   <p class="p-5">Demandes reçues</p>
   @end
-  <div class="w-full px-8 py-4">
+  <div class="w-full sm:px-8 py-4">
     @each(demandeRecue in demandesRecues)
     @if(demandeRecue.show_target === 1)
     <div class="grid grid-cols-4 grid-rows-1 gap-6 w-full my-4">
@@ -84,63 +84,63 @@
   <p class="p-5">Demandes envoyées</p>
   @end
   @each(demandeEnvoyee in demandesEnvoyees)
-    @if(demandeEnvoyee.show_creator === 1)
-    <div class="grid grid-cols-4 grid-rows-1 gap-6 w-full my-4">
+  @if(demandeEnvoyee.show_creator === 1)
+  <div class="grid grid-cols-4 grid-rows-1 gap-6 w-full my-4 p-4 sm:px-8">
+    <div class="flex items-center">
       <div class="flex items-center">
-        <div class="flex items-center">
-          <div class="ml-4">
-            <p class="font-bold">{{ demandeEnvoyee.plante }}
-              <img src="{{ demandeEnvoyee.icon }}" alt="" class="w-8 h-8 inline-block rounded-full">
-            <p class="text-gray-500">Envoyé à {{ demandeEnvoyee.user_target }}</p>
-            </p>
-          </div>
+        <div class="ml-4">
+          <p class="font-bold">{{ demandeEnvoyee.plante }}
+            <img src="{{ demandeEnvoyee.icon }}" alt="" class="w-8 h-8 inline-block rounded-full">
+          <p class="text-gray-500">Envoyé à {{ demandeEnvoyee.user_target }}</p>
+          </p>
         </div>
       </div>
-      <div class="text-center">
-        <p class="dark:text-gray-200 text-gray-500">{{ demandeEnvoyee.updated_at }}</p>
-        <p class="dark:text-gray-300 text-gray-700">Concernant {{ demandeEnvoyee.field }}</p>
-      </div>
+    </div>
+    <div class="text-center">
+      <p class="dark:text-gray-200 text-gray-500">{{ demandeEnvoyee.updated_at }}</p>
+      <p class="dark:text-gray-300 text-gray-700">Concernant {{ demandeEnvoyee.field }}</p>
+    </div>
 
-      @if(demandeEnvoyee.field !== 'icon')
-      <div class="text-center">
-        <p class="dark:text-gray-200 text-gray-500">Ancienne valeur : {{ demandeEnvoyee.old_value }} </p>
-        <p class="dark:text-gray-300 text-gray-700">Nouvelle valeur : {{ demandeEnvoyee.new_value }}</p>
-      </div>
-      @else
-      <div class="text-center">
-        <img src="{{ demandeEnvoyee.old_value }}" alt="" class="w-8 h-8 inline-block rounded-full">
-        <img src="{{ demandeEnvoyee.new_value }}" alt="" class="w-8 h-8 inline-block rounded-full">
-      </div>
-      @end
-
-      <div class="text-center">
-        @if(demandeEnvoyee.status==0)
-        <p class="dark:text-gray-200 text-gray-500">En attente</p>
-        <form action="" method="post">
-          {{ csrfField() }}
-          <input type="hidden" name="id" value="{{ demandeEnvoyee.id }}">
-          <input type="hidden" name="delete" value="true">
-          <button type="submit" class="font-bold">Masquer</button>
-        </form>
-        @else
-        <p class="dark:text-gray-200 text-gray-500">{{ demandeEnvoyee.status === 1 ? 'Acceptée' : 'Refusée' }}</p>
-        <form action="" method="post">
-          {{ csrfField() }}
-          <input type="hidden" name="id" value="{{ demandeEnvoyee.id }}">
-          <input type="hidden" name="delete" value="true">
-          <button type="submit" class="font-bold">Masquer</button>
-        </form>
-        @end
-      </div>
+    @if(demandeEnvoyee.field !== 'icon')
+    <div class="text-center">
+      <p class="dark:text-gray-200 text-gray-500">Ancienne valeur : {{ demandeEnvoyee.old_value }} </p>
+      <p class="dark:text-gray-300 text-gray-700">Nouvelle valeur : {{ demandeEnvoyee.new_value }}</p>
+    </div>
+    @else
+    <div class="text-center">
+      <img src="{{ demandeEnvoyee.old_value }}" alt="" class="w-8 h-8 inline-block rounded-full">
+      <img src="{{ demandeEnvoyee.new_value }}" alt="" class="w-8 h-8 inline-block rounded-full">
     </div>
     @end
-    @else
-    <div class="flex justify-center items-center w-full">
-      <div class="text-center">
-        <p class="dark:text-white">Aucune demande envoyé pour le moment 👌</p>
-      </div>
+
+    <div class="text-center">
+      @if(demandeEnvoyee.status==0)
+      <p class="dark:text-gray-200 text-gray-500">En attente</p>
+      <form action="" method="post">
+        {{ csrfField() }}
+        <input type="hidden" name="id" value="{{ demandeEnvoyee.id }}">
+        <input type="hidden" name="delete" value="true">
+        <button type="submit" class="font-bold">Masquer</button>
+      </form>
+      @else
+      <p class="dark:text-gray-200 text-gray-500">{{ demandeEnvoyee.status === 1 ? 'Acceptée' : 'Refusée' }}</p>
+      <form action="" method="post">
+        {{ csrfField() }}
+        <input type="hidden" name="id" value="{{ demandeEnvoyee.id }}">
+        <input type="hidden" name="delete" value="true">
+        <button type="submit" class="font-bold">Masquer</button>
+      </form>
+      @end
     </div>
   </div>
   @end
+  @else
+  <div class="flex justify-center items-center w-full">
+    <div class="text-center">
+      <p class="dark:text-white">Aucune demande envoyé pour le moment 👌</p>
+    </div>
+  </div>
+</div>
+@end
 </div>
 @include('partials/footer')

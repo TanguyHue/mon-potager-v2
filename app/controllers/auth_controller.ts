@@ -11,8 +11,10 @@ export default class AuthController {
     return view.render('auth/register')
   }
 
-  login({ view }: HttpContext) {
-    return view.render('auth/login')
+  login({ view, session }: HttpContext) {
+    return view.render('auth/login', {
+      errors: session.flashMessages.get('errorsBag'),
+    })
   }
 
   async logout({ response, auth }: HttpContext) {
@@ -23,6 +25,7 @@ export default class AuthController {
   async handleLogin({ request, auth, response }: HttpContext) {
     const { email, password } = await request.validateUsing(loginAccount)
     const user = await User.verifyCredentials(email, password)
+    console.log('aaaa')
     await auth.use('web').login(user)
     return response.redirect().toRoute('admin.dashboard')
   }

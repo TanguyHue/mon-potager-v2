@@ -10,6 +10,7 @@ tmp
 .env.development.local
 
 public/assets
+!public/assets/video-bg-720p.mp4
 public/users
 public/plantes
 !public/plantes/default.png
