@@ -12,7 +12,7 @@ export default {
         '148px': '148px',
         '52px': '52px',
         '64px': '64px',
-        'screenH': 'calc(100vh - 68px)',
+        'screenH': 'calc(100vh - 64px)',
       },
     },
   },

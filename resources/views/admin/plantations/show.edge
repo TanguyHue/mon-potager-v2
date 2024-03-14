@@ -17,17 +17,17 @@
       <h1 class="text-3xl font-bold">{{ plante.name }}</h1>
     </div>
 
-    <p class="text-gray-200 my-2">Durée avant la récolte : {{ plante.delai_recolte }} jours</p>
+    <p class="dark:text-gray-200 text-gray-700 my-2">Durée avant la récolte : {{ plante.delai_recolte }} jours</p>
 
     <div class="my-5">
       <h1 class="text-xl font-bold mt-5">Modifier les informations</h1>
 
       @if(plante.user_id !== auth.user.id)
-      <p class="text-gray-200 py-3">Vous n'êtes pas le créateur. Ainsi, la modification enverra une demande au créateur
+      <p class="dark:text-gray-200 text-gray-700 py-3">Vous n'êtes pas le créateur. Ainsi, la modification enverra une demande au créateur
         de correction qu'il pourra accepter ou refuser.
       </p>
       @end
-      <p class="text-gray-200 py-3">Vous pouvez modifier seulement les champs qui vous intéresse et laisser les autres
+      <p class="dark:text-gray-200 text-gray-700 py-3">Vous pouvez modifier seulement les champs qui vous intéresse et laisser les autres
         vides.
       </p>
       <form action='' class="max-w-sm" method="post" enctype="multipart/form-data">
@@ -58,7 +58,7 @@
       </label>
     </form>
     @else
-    <p class="text-gray-200 py-3">Créateur de la plante : <span class="font-bold">{{ username }} <span></span></p>
+    <p class="dark:text-gray-200 text-gray-700 py-3">Créateur de la plante : <span class="font-bold">{{ username }} <span></span></p>
     @end
   </div>
 </div>

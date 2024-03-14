@@ -30,8 +30,8 @@
           <div class="md:w-1/4 w-1/2 flex items-center">
             <img src="{{ plante.icon }}" alt="plante" class="mt-1 h-10 w-10 rounded-lg mr-4">
             <div>
-              <p class="text-xl font-bold text-white">{{plante.name}}</p>
-              <p class="text-sm text-gray-300">Délai avant la récolte : {{plante.delai_recolte}}</p>
+              <p class="text-xl font-bold dark:text-white">{{plante.name}}</p>
+              <p class="text-sm dark:text-gray-300 text-gray-500">Délai avant la récolte : {{plante.delai_recolte}}</p>
             </div>
           </div>
           <div class="flex justify-between items-center mx-4">
@@ -54,7 +54,7 @@
     @else
     <div class="flex justify-center items-center h-64 w-full">
       <div class="text-center">
-        <p class="text-white py-10">Aucune plante pour le moment 😞</p>
+        <p class="dark:text-white py-10">Aucune plante pour le moment 😞</p>
       </div>
     </div>
     @if(idPotager)
