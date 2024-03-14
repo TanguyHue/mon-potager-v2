@@ -1,0 +1,146 @@
+@let(title="Mon potager 🌱")
+@let(dashboard=true)
+
+@include('partials/header')
+@include('admin/aside_bar')
+<div class="sm:ml-64">
+  <div class="p-10">
+    @!component('components/breadcrumb', { breadcrumbs: {
+    'Demandes de modification': false
+    }
+    })
+  </div>
+  @if(demandesRecues)
+  <p class="p-5">Demandes reçues</p>
+  @end
+  <div class="w-full px-8 py-4">
+    @each(demandeRecue in demandesRecues)
+    @if(demandeRecue.show_target === 1)
+    <div class="grid grid-cols-4 grid-rows-1 gap-6 w-full my-4">
+      <div class="flex items-center">
+        <div class="flex items-center">
+          <div class="ml-4">
+            <p class="font-bold">{{ demandeRecue.plante }}
+              <img src="{{ demandeRecue.icon }}" alt="" class="w-8 h-8 inline-block rounded-full">
+            <p class="text-gray-500">Demandé par {{ demandeRecue.user_creator }}</p>
+            </p>
+          </div>
+        </div>
+      </div>
+      <div class="text-center">
+        <p class="text-gray-200">{{ demandeRecue.updated_at }}</p>
+        <p class="text-gray-300">Concernant {{ demandeRecue.field }}</p>
+      </div>
+
+      @if(demandeRecue.field !== 'icon')
+      <div class="text-center">
+        <p class="text-gray-200">Ancienne valeur : {{ demandeRecue.old_value }} </p>
+        <p class="text-gray-300">Nouvelle valeur : {{ demandeRecue.new_value }}</p>
+      </div>
+      @else
+      <div class="text-center">
+        <img src="{{ demandeRecue.old_value }}" alt="" class="w-8 h-8 inline-block rounded-full">
+        <img src="{{ demandeRecue.new_value }}" alt="" class="w-8 h-8 inline-block rounded-full">
+      </div>
+      @end
+
+      <div class="text-center">
+        @if(demandeRecue.status==0)
+        <form action="" method="post">
+          {{ csrfField() }}
+          <input type="hidden" name="id" value="{{ demandeRecue.id }}">
+          <input type="hidden" name="accept" value="true">
+          <button type="submit">Accepter</button>
+        </form>
+        <form action="" method="post">
+          {{ csrfField() }}
+          <input type="hidden" name="id" value="{{ demandeRecue.id }}">
+          <input type="hidden" name="reject" value="true">
+          <button type="submit">Refuser</button>
+        </form>
+        @else
+        <p class="text-gray-200">{{ demandeRecue.status === 1 ? 'Acceptée' : 'Refusée' }}</p>
+        <form action="" method="post">
+          {{ csrfField() }}
+          <input type="hidden" name="id" value="{{ demandeRecue.id }}">
+          <input type="hidden" name="delete" value="true">
+          <button type="submit" class="font-bold">Masquer</button>
+        </form>
+        @end
+      </div>
+    </div>
+    @end
+    @else
+    <div class="flex justify-center items-center w-full">
+      <div class="text-center">
+        <p class="text-white">Aucune demande reçue pour le moment 👌</p>
+      </div>
+    </div>
+    @end
+  </div>
+  @if(demandesEnvoyees)
+  <div class='w-1/2 border-t-2 border-gray-200 my-8 mx-auto'>
+  </div>
+  <p class="p-5">Demandes envoyées</p>
+  @end
+  @each(demandeEnvoyee in demandesEnvoyees)
+    @if(demandeEnvoyee.show_creator === 1)
+    <div class="grid grid-cols-4 grid-rows-1 gap-6 w-full my-4">
+      <div class="flex items-center">
+        <div class="flex items-center">
+          <div class="ml-4">
+            <p class="font-bold">{{ demandeEnvoyee.plante }}
+              <img src="{{ demandeEnvoyee.icon }}" alt="" class="w-8 h-8 inline-block rounded-full">
+            <p class="text-gray-500">Envoyé à {{ demandeEnvoyee.user_target }}</p>
+            </p>
+          </div>
+        </div>
+      </div>
+      <div class="text-center">
+        <p class="text-gray-200">{{ demandeEnvoyee.updated_at }}</p>
+        <p class="text-gray-300">Concernant {{ demandeEnvoyee.field }}</p>
+      </div>
+
+      @if(demandeEnvoyee.field !== 'icon')
+      <div class="text-center">
+        <p class="text-gray-200">Ancienne valeur : {{ demandeEnvoyee.old_value }} </p>
+        <p class="text-gray-300">Nouvelle valeur : {{ demandeEnvoyee.new_value }}</p>
+      </div>
+      @else
+      <div class="text-center">
+        <img src="{{ demandeEnvoyee.old_value }}" alt="" class="w-8 h-8 inline-block rounded-full">
+        <img src="{{ demandeEnvoyee.new_value }}" alt="" class="w-8 h-8 inline-block rounded-full">
+      </div>
+      @end
+
+      <div class="text-center">
+        @if(demandeEnvoyee.status==0)
+        <p class="text-gray-200">En attente</p>
+        <form action="" method="post">
+          {{ csrfField() }}
+          <input type="hidden" name="id" value="{{ demandeEnvoyee.id }}">
+          <input type="hidden" name="delete" value="true">
+          <button type="submit" class="font-bold">Masquer</button>
+        </form>
+        @else
+        <p class="text-gray-200">{{ demandeEnvoyee.status === 1 ? 'Acceptée' : 'Refusée' }}</p>
+        <form action="" method="post">
+          {{ csrfField() }}
+          <input type="hidden" name="id" value="{{ demandeEnvoyee.id }}">
+          <input type="hidden" name="delete" value="true">
+          <button type="submit" class="font-bold">Masquer</button>
+        </form>
+        @end
+      </div>
+    </div>
+    @end
+    @else
+    <div class="flex justify-center items-center w-full">
+      <div class="text-center">
+        <p class="text-white">Aucune demande envoyé pour le moment 👌</p>
+      </div>
+    </div>
+  </div>
+  @end
+</div>
+@include('partials/footer')

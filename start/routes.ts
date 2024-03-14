@@ -10,6 +10,7 @@
 const AuthController = () => import('#controllers/auth_controller')
 import router from '@adonisjs/core/services/router'
 import { middleware } from './kernel.js'
+const DemandesController = () => import('#controllers/demandes_controller')
 const PlantesController = () => import('#controllers/plantes_controller')
 const MonpotagersController = () => import('#controllers/monpotagers_controller')
 const AdminController = () => import('#controllers/admin_controller')
@@ -60,6 +61,9 @@ router
     router.get('/profile', [AdminController, 'profile']).as('profile')
     router.get('/settings', [AdminController, 'settings']).as('settings')
     router.post('/settings', [AuthController, 'handleUpdate']).as('settings.update')
+
+    router.get('/demandes', [DemandesController, 'index']).as('demandes')
+    router.post('/demandes', [DemandesController, 'actionDemande']).as('demandes.action')
 
     router.post('/logout', [AuthController, 'logout']).as('logout')
   })

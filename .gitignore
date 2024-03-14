@@ -11,6 +11,8 @@ tmp
 
 public/assets
 public/users
+public/plantes
+!public/plantes/default.png
 
 # Build tools specific
 npm-debug.log
@@ -23,3 +25,5 @@ yarn-error.log
 
 # Platform specific
 .DS_Store
+
+database/seeders/user_seeder.ts

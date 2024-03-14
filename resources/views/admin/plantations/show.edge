@@ -32,6 +32,8 @@
       </p>
       <form action='' class="max-w-sm" method="post" enctype="multipart/form-data">
         {{ csrfField() }}
+        @!component('components/input', { title: 'name', label: 'Nom de la plante', type: 'text', 
+        name: 'Nom de la plantes', value: plante.name })
         @!component('components/input', { title: 'delai_recolte', label: 'Délai avant la récolte en jour', type:
         'numberInput', min: 1, name: 'Délai avant récolte', value: plante.delai_recolte, svgIcon:
         'material-symbols:nest-clock-farsight-analog-outline' })

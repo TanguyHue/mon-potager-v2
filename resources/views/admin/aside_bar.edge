@@ -26,22 +26,26 @@
     </ul>
     <ul class="pt-4 mt-4 space-y-2 font-medium border-t border-gray-200 dark:border-gray-700">
       @!component('components/aside_component', {
-        redirect: route('admin.plantes.index'),
-        path: 'uil:map-marker-plus',
-        name: 'Plantes disponibles',
-        })
+      redirect: route('admin.plantes.index'),
+      path: 'uil:map-marker-plus',
+      name: 'Plantes disponibles',
+      })
       @!component('components/aside_component', {
-        redirect: route('admin.settings'),
-        path: 'uil:setting',
-        name: 'Paramètres',
-        })
+      redirect: route('admin.demandes'),
+      path: 'material-symbols:handshake-rounded',
+      name: 'Demandes',
+      })
       @!component('components/aside_component', {
-        redirect: route('admin.logout'),
-        path: 'uil:exit',
-        name: 'Se déconnecter',
-        exit: true,
-        })
+      redirect: route('admin.settings'),
+      path: 'uil:setting',
+      name: 'Paramètres',
+      })
+      @!component('components/aside_component', {
+      redirect: route('admin.logout'),
+      path: 'uil:exit',
+      name: 'Se déconnecter',
+      exit: true,
+      })
     </ul>
   </div>
 </aside>
-  

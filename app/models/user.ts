@@ -5,8 +5,9 @@ import { compose } from '@adonisjs/core/helpers'
 import { BaseModel, column, hasMany } from '@adonisjs/lucid/orm'
 import type { HasMany } from '@adonisjs/lucid/types/relations'
 import PlantePosition from '#models/plante_position'
-import Tache from './tache.js'
-import Plante from './plante.js'
+import Tache from '#models/tache'
+import Plante from '#models/plante'
+import DemandeChangement from '#models/demande_changement'
 
 const AuthFinder = withAuthFinder(() => hash.use('scrypt'), {
   uids: ['email'],
@@ -43,4 +44,7 @@ export default class User extends compose(BaseModel, AuthFinder) {
 
   @hasMany(() => Plante)
   declare plantes: HasMany<typeof Plante>
+
+  @hasMany(() => DemandeChangement)
+  declare demande_changements: HasMany<typeof DemandeChangement>
 }

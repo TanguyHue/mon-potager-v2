@@ -2,6 +2,7 @@ import { DateTime } from 'luxon'
 import { BaseModel, column, hasMany } from '@adonisjs/lucid/orm'
 import Potager from '#models/potager'
 import type { HasMany } from '@adonisjs/lucid/types/relations'
+import DemandeChangement from './demande_changement.js'
 
 export default class Plante extends BaseModel {
   @column({ isPrimary: true })
@@ -27,4 +28,7 @@ export default class Plante extends BaseModel {
 
   @hasMany(() => Potager)
   declare potagers: HasMany<typeof Potager>
+
+  @hasMany(() => DemandeChangement)
+  declare demandeChangements: HasMany<typeof DemandeChangement>
 }
