@@ -9,11 +9,11 @@ tmp
 .env.production.local
 .env.development.local
 
-public/assets
+public/assets/*
 !public/assets/video-bg-720p.mp4
-public/users
+public/users/*
 !public/users/default.png
-public/plantes
+public/plantes/*
 !public/plantes/default.png
 
 # Build tools specific
