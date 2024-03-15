@@ -3,13 +3,13 @@ import { BaseModel, column } from '@adonisjs/lucid/orm'
 
 export default class Tache extends BaseModel {
   @column({ isPrimary: true })
-  declare id: number
+  declare id: string
 
   @column()
-  declare idCreateur: number
+  declare idCreateur: string
 
   @column()
-  declare idRealisateur: number
+  declare idRealisateur: string
 
   @column()
   declare titre: string

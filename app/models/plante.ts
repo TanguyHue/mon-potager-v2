@@ -7,10 +7,10 @@ import Plantation from '#models/plantation'
 
 export default class Plante extends BaseModel {
   @column({ isPrimary: true })
-  declare id: number
+  declare id: string
 
   @column()
-  declare user_id: number
+  declare user_id: string
 
   @column()
   declare name: string

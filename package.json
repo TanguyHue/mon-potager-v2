@@ -69,6 +69,7 @@
     "flowbite": "^2.3.0",
     "jdenticon": "^3.2.0",
     "luxon": "^3.4.4",
+    "mysql2": "^3.9.2",
     "reflect-metadata": "^0.2.1"
   },
   "eslintConfig": {

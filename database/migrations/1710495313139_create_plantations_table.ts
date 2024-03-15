@@ -5,22 +5,10 @@ export default class extends BaseSchema {
 
   async up() {
     this.schema.createTable(this.tableName, (table) => {
-      table.increments('id')
-      table
-        .integer('idPlante')
-        .unsigned()
-        .notNullable()
-        .references('id')
-        .inTable('plantes')
-        .onDelete('CASCADE')
+      table.string('id').primary().defaultTo(this.db.rawQuery('(UUID())').knexQuery)
+      table.string('idPlante').references('id').inTable('plantes').onDelete('CASCADE')
       table.dateTime('dateArrosage').notNullable()
-      table
-        .integer('idPotager')
-        .unsigned()
-        .notNullable()
-        .references('id')
-        .inTable('potagers')
-        .onDelete('CASCADE')
+      table.string('idPotager').references('id').inTable('potagers').onDelete('CASCADE')
       table.string('name').notNullable()
       // 0: à arroser, 1: arrosé, 2: récolté
       table.integer('state').notNullable().checkIn(['0', '1', '2'])

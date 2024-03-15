@@ -12,6 +12,7 @@ export default class AuthController {
   }
 
   login({ view, session }: HttpContext) {
+    console.log(session.flashMessages.all())
     return view.render('auth/login', {
       errors: session.flashMessages.get('errorsBag'),
     })
@@ -25,7 +26,6 @@ export default class AuthController {
   async handleLogin({ request, auth, response }: HttpContext) {
     const { email, password } = await request.validateUsing(loginAccount)
     const user = await User.verifyCredentials(email, password)
-    console.log('aaaa')
     await auth.use('web').login(user)
     return response.redirect().toRoute('admin.dashboard')
   }

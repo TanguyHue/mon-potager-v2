@@ -5,7 +5,7 @@ import Plantation from '#models/plantation'
 
 export default class Potager extends BaseModel {
   @column({ isPrimary: true })
-  declare id: number
+  declare id: string
 
   @column()
   declare name: string
@@ -14,7 +14,7 @@ export default class Potager extends BaseModel {
   declare description: string
 
   @column()
-  declare user_id: number
+  declare user_id: string
 
   @column.dateTime({ autoCreate: true })
   declare createdAt: DateTime

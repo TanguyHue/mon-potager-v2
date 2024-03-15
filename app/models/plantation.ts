@@ -3,16 +3,16 @@ import { BaseModel, column } from '@adonisjs/lucid/orm'
 
 export default class Plantation extends BaseModel {
   @column({ isPrimary: true })
-  declare id: number
+  declare id: string
 
   @column()
-  declare idPlante: number
+  declare idPlante: string
 
   @column()
   declare dateArrosage: DateTime
 
   @column()
-  declare idPotager: number
+  declare idPotager: string
 
   @column()
   declare name: string

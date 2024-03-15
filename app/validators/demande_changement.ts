@@ -6,17 +6,17 @@ import vine from '@vinejs/vine'
  */
 export const createDemandeChangementValidator = vine.compile(
   vine.object({
-    user_creatorId: vine.number().exists(async (db, value) => {
-      const user = await db.from('user').where('id', value).first()
-      return !user
+    user_creatorId: vine.string().exists(async (db, value) => {
+      const user = await db.from('users').where('id', value).first()
+      return user
     }),
-    user_targetId: vine.number().exists(async (db, value) => {
-      const user = await db.from('user').where('id', value).first()
-      return !user
+    user_targetId: vine.string().exists(async (db, value) => {
+      const user = await db.from('users').where('id', value).first()
+      return user
     }),
-    planteId: vine.number().exists(async (db, value) => {
-      const plante = await db.from('plante').where('id', value).first()
-      return !plante
+    planteId: vine.string().exists(async (db, value) => {
+      const plante = await db.from('plantes').where('id', value).first()
+      return plante
     }),
     status: vine.number(),
     field: vine.string(),

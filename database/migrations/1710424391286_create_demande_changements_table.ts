@@ -5,20 +5,10 @@ export default class extends BaseSchema {
 
   async up() {
     this.schema.createTable(this.tableName, (table) => {
-      table.increments('id')
-      table
-        .integer('user_creator_id')
-        .unsigned()
-        .references('id')
-        .inTable('users')
-        .onDelete('CASCADE')
-      table
-        .integer('user_target_id')
-        .unsigned()
-        .references('id')
-        .inTable('users')
-        .onDelete('CASCADE')
-      table.integer('plante_id').unsigned().references('id').inTable('plantes').onDelete('CASCADE')
+      table.string('id').primary().defaultTo(this.db.rawQuery('(UUID())').knexQuery)
+      table.string('user_creator_id').references('id').inTable('users').onDelete('CASCADE')
+      table.string('user_target_id').references('id').inTable('users').onDelete('CASCADE')
+      table.string('plante_id').references('id').inTable('plantes').onDelete('CASCADE')
       // 0: en attente, 1: accepté, 2: refusé
       table.integer('status').notNullable().checkIn(['0', '1', '2'])
       table.string('field').notNullable()

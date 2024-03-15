@@ -6,10 +6,10 @@ import User from './user.js'
 
 export default class DemandeChangement extends BaseModel {
   @column({ isPrimary: true })
-  declare id: number
+  declare id: string
 
   @column()
-  declare user_creatorId: number
+  declare user_creatorId: string
 
   @belongsTo(() => User, {
     foreignKey: 'user_creatorId',
@@ -17,7 +17,7 @@ export default class DemandeChangement extends BaseModel {
   declare user_creator: relations.BelongsTo<typeof User>
 
   @column()
-  declare user_targetId: number
+  declare user_targetId: string
 
   @belongsTo(() => User, {
     foreignKey: 'user_targetId',
@@ -25,7 +25,7 @@ export default class DemandeChangement extends BaseModel {
   declare user_target: relations.BelongsTo<typeof User>
 
   @column()
-  declare planteId: number
+  declare planteId: string
 
   @belongsTo(() => Plante)
   declare plante: relations.BelongsTo<typeof Plante>
