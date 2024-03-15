@@ -12,6 +12,7 @@ export const createPlanteValidator = vine.compile(
     }),
     icon: vine.file({ extnames: ['png', 'jpg'], size: '10mb' }).optional(),
     delai_recolte: vine.number().min(1),
+    delai_arrosage: vine.number().min(1).optional(),
   })
 )
 
@@ -26,5 +27,6 @@ export const updatePlanteValidator = vine.compile(
       .optional(),
     icon: vine.file({ extnames: ['png', 'jpg'], size: '10mb' }).optional(),
     delai_recolte: vine.number().min(1).optional(),
+    delai_arrosage: vine.number().min(1).optional(),
   })
 )

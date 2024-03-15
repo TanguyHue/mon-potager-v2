@@ -8,13 +8,13 @@ export default class extends BaseSeeder {
         username: 'thue',
         email: 'thue@thue.fr',
         password: 'aaaaaaaa',
-        thumbnail: '/users/thue.png',
+        thumbnail: '/users/default.png',
       },
       {
         username: 'thue1',
         email: 'thue1@thue.fr',
         password: 'aaaaaaaa',
-        thumbnail: '/users/thue.png',
+        thumbnail: '/users/default.png',
       },
     ])
   }

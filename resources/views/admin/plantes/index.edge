@@ -1,0 +1,66 @@
+@let(title="Mon potager 🌱")
+@let(dashboard=true)
+
+@include('partials/header')
+@include('admin/aside_bar')
+<div class="sm:ml-64">
+  <div class="p-10">
+    @!component('components/breadcrumb', { breadcrumbs: {
+    'Plantes disponibles': false
+    }
+    })
+  </div>
+  <div class="w-full px-8 py-4">
+    <a href="{{ route('admin.plantes.create')}}">
+      <button type="button" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none
+       focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center mb-5
+       inline-flex items-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+        Ajouter une <span class="font-bold ml-1">plante 🌱</span>
+        <svg class="rtl:rotate-180 w-3.5 h-3.5 ms-2 mt-1" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
+          fill="none" viewBox="0 0 14 10">
+          <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+            d="M1 5h12m0 0L9 1m4 4L9 9" />
+        </svg>
+      </button>
+    </a>
+    @each(plante in plantes)
+    <div>
+      <div class="flex justify-between items-center">
+        <div class="flex items w-full my-3">
+          <div class="md:w-1/4 w-1/2 flex items-center">
+            <img src="{{ plante.icon }}" alt="plante" class="mt-2 h-10 w-10 rounded-lg mr-4">
+            <div>
+              <p class="text-xl font-bold dark:text-white">{{plante.name}}</p>
+              <p class="text-sm dark:text-gray-300 text-gray-500">Délai avant la récolte : {{plante.delai_recolte}}</p>
+              <p class="text-sm dark:text-gray-300 text-gray-500">Délai d'arrosage : {{plante.delai_arrosage}}</p>
+            </div>
+          </div>
+          <div class="flex justify-between items-center mx-4 mt-2">
+            <a href="{{ route('admin.plantes.show', {id: plante.id})}}">
+              <button type="button" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none
+           focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center
+           inline-flex items-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+                Paramétrer
+                @svg('material-symbols:local-florist', {
+                width: 20,
+                height: 20,
+                class: 'ml-2'
+                })
+              </button>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+    @else
+    <div class="flex justify-center items-center h-64 w-full">
+      <div class="text-center">
+        <p class="dark:text-white py-10">Aucune plante pour le moment 😞</p>
+      </div>
+    </div>
+    @if(idPotager)
+  </div>
+  @end
+</div>
+@end
+@include('partials/footer')

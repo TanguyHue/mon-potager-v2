@@ -1,4 +1,5 @@
 import { BaseSchema } from '@adonisjs/lucid/schema'
+import fs from 'node:fs'
 
 export default class extends BaseSchema {
   protected tableName = 'plantes'
@@ -10,6 +11,7 @@ export default class extends BaseSchema {
       table.string('name').notNullable()
       table.string('icon').notNullable()
       table.integer('delai_recolte').notNullable()
+      table.integer('delai_arrosage').notNullable().defaultTo(1)
 
       table.timestamp('created_at')
       table.timestamp('updated_at')

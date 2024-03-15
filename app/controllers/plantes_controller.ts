@@ -12,11 +12,11 @@ import { unlink } from 'node:fs'
 export default class PlantesController {
   async index({ view }: HttpContext) {
     const plantes = await Plante.query().orderBy('name', 'asc')
-    return view.render('admin/plantations/index', { plantes })
+    return view.render('admin/plantes/index', { plantes })
   }
 
   async create({ view }: HttpContext) {
-    return view.render('admin/plantations/create')
+    return view.render('admin/plantes/create')
   }
 
   async handleCreate({ view, request, auth }: HttpContext) {
@@ -54,7 +54,7 @@ export default class PlantesController {
       username = user.username
     }
 
-    return view.render('admin/plantations/show', { plante, username })
+    return view.render('admin/plantes/show', { plante, username })
   }
 
   async handleUpdate({ request, response, auth }: HttpContext) {
@@ -110,7 +110,7 @@ export default class PlantesController {
           await DemandeChangement.query()
             .where('field', key)
             .where('user_targetId', plante.user_id)
-            .where('user_creatorId', userId)
+            .where('user_creatorId', userId as number)
             .where('plante_id', plante.id)
             .first()
         ) {
@@ -118,7 +118,7 @@ export default class PlantesController {
             const lastIcon = await DemandeChangement.query()
               .where('field', 'icon')
               .where('user_targetId', plante.user_id)
-              .where('user_creatorId', userId)
+              .where('user_creatorId', userId as number)
               .where('plante_id', plante.id)
               .select('new_value')
 
@@ -132,7 +132,7 @@ export default class PlantesController {
           await DemandeChangement.query()
             .where('field', key)
             .where('user_targetId', plante.user_id)
-            .where('user_creatorId', userId)
+            .where('user_creatorId', userId as number)
             .where('plante_id', plante.id)
             .update(demande)
         } else {

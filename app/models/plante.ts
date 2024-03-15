@@ -20,6 +20,9 @@ export default class Plante extends BaseModel {
   @column()
   declare delai_recolte: number
 
+  @column()
+  declare delai_arrosage: number
+
   @column.dateTime({ autoCreate: true })
   declare createdAt: DateTime
 

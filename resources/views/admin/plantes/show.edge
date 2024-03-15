@@ -1,0 +1,70 @@
+@let(title="Mon potager 🌱")
+@let(dashboard=true)
+
+@include('partials/header')
+@include('admin/aside_bar')
+<div class="sm:ml-64">
+  <div class="p-10">
+    @!component('components/breadcrumb', { breadcrumbs: {
+    'Plantes disponibles': route('admin.plantes.index'),
+    'Gérer une plante': false
+    }
+    })
+  </div>
+  <div class="p-10">
+    <div class="flex items-center">
+      <img src="{{ plante.icon }}" alt="{{ plante.name }}" class="w-8 h-8 rounded-lg mr-4 mt-1" />
+      <h1 class="text-3xl font-bold">{{ plante.name }}</h1>
+    </div>
+
+    <p class="dark:text-gray-200 text-gray-700 my-2">Durée avant la récolte : {{ plante.delai_recolte }} jour(s)</p>
+    <p class="dark:text-gray-200 text-gray-700 my-2">Durée d'arrosage : {{ plante.delai_arrosage }} jour(s)</p>
+    <div class="my-5">
+      <h1 class="text-xl font-bold mt-5">Modifier les informations</h1>
+
+      @if(plante.user_id !== auth.user.id)
+      <p class="dark:text-gray-200 text-gray-700 py-3">Vous n'êtes pas le créateur. Ainsi, la modification enverra une
+        demande au créateur
+        de correction qu'il pourra accepter ou refuser.
+      </p>
+      @end
+      <p class="dark:text-gray-200 text-gray-700 py-3">Vous pouvez modifier seulement les champs qui vous intéresse et
+        laisser les autres
+        vides.
+      </p>
+      <form action='' class="max-w-sm" method="post" enctype="multipart/form-data">
+        {{ csrfField() }}
+        @!component('components/input', { title: 'name', label: 'Nom de la plante', type: 'text',
+        name: 'Nom de la plantes', value: plante.name })
+        @!component('components/input', { title: 'delai_recolte', label: 'Délai avant la récolte en jour', type:
+        'numberInput', min: 1, name: 'Délai avant récolte', value: plante.delai_recolte, svgIcon:
+        'material-symbols:nest-clock-farsight-analog-outline' })
+        @!component('components/input', { title: 'delai_arrosage', label: "Délai d'arrosage en jour", type:
+      'numberInput', min: 1, name: "Délai d'arrosage", svgIcon: 'material-symbols:water-drop', value: plante.delai_arrosage})
+        @!component('components/input', { title: 'icon', label: "Modifier l'illustration", type: 'file'})
+        @!component('components/button', { text: 'Modifier la plante' })
+      </form>
+    </div>
+
+    @if(plante.user_id == auth.user.id)
+    <form action="{{ route('admin.plantes.delete', {id: plante.id})}}" method="post" class="">
+      {{ csrfField() }}
+      <label class="text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:outline-none
+      focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center my-5 cursor-pointer
+      inline-flex items-center dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-800">
+        <input type="submit" class="cursor-pointer" value="Supprimer la plante" />
+
+        @svg('material-symbols:delete', {
+        width: 20,
+        height: 20,
+        class: 'ml-2'
+        })
+      </label>
+    </form>
+    @else
+    <p class="dark:text-gray-200 text-gray-700 py-3">Créateur de la plante : <span class="font-bold">{{ username }}
+        <span></span></p>
+    @end
+  </div>
+</div>
+@include('partials/footer')
