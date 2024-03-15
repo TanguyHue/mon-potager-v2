@@ -39,7 +39,7 @@ export default class MonpotagersController {
   }
 
   async show({ view, request, auth }: HttpContext) {
-    const idPotager = request.param('id')
+    const idPotager = request.param('idPotager')
     const potager = await Potager.find(idPotager)
 
     if (!potager) {
@@ -59,7 +59,7 @@ export default class MonpotagersController {
   }
 
   async handleDelete({ request, response, auth }: HttpContext) {
-    const potager = await Potager.findOrFail(request?.param('id'))
+    const potager = await Potager.findOrFail(request?.param('idPotager'))
 
     if (!potager) {
       throw new Error('Potager not found')

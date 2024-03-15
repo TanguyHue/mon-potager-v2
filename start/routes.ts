@@ -10,6 +10,7 @@
 const AuthController = () => import('#controllers/auth_controller')
 import router from '@adonisjs/core/services/router'
 import { middleware } from './kernel.js'
+const PlantationsController = () => import('#controllers/plantations_controller')
 const DemandesController = () => import('#controllers/demandes_controller')
 const PlantesController = () => import('#controllers/plantes_controller')
 const MonpotagersController = () => import('#controllers/monpotagers_controller')
@@ -36,9 +37,26 @@ router
         router.get('/', [MonpotagersController, 'index']).as('index')
         router.get('/create', [MonpotagersController, 'create']).as('create')
         router.post('/create', [MonpotagersController, 'handleCreate']).as('store')
-        router.get('/:id', [MonpotagersController, 'show']).as('show')
-        router.post('/:id', [MonpotagersController, 'handleUpdate']).as('update')
-        router.post('/:id/delete', [MonpotagersController, 'handleDelete']).as('delete')
+        router
+          .group(() => {
+            router.get('/', [MonpotagersController, 'show']).as('show')
+            router.post('/', [MonpotagersController, 'handleUpdate']).as('update')
+            router.post('/delete', [MonpotagersController, 'handleDelete']).as('delete')
+
+            router
+              .group(() => {
+                router.get('/create', [PlantationsController, 'create']).as('create')
+                router.post('/create', [PlantationsController, 'handleCreate']).as('store')
+                router.get('/:idPlantation', [PlantationsController, 'show']).as('show')
+                router.post('/:idPlantation', [PlantationsController, 'handleUpdate']).as('update')
+                router
+                  .post('/:idPlantation/delete', [PlantationsController, 'handleDelete'])
+                  .as('delete')
+              })
+              .as('plantations')
+              .prefix('plantations')
+          })
+          .prefix(':idPotager')
       })
       .as('monpotager')
       .prefix('monpotager')

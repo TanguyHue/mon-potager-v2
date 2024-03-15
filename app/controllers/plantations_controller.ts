@@ -1,20 +1,27 @@
 import type { HttpContext } from '@adonisjs/core/http'
+import Plante from '#models/plante'
 
 export default class PlantationsController {
   /**
-   * Display a list of resource
-   */
-  async index({}: HttpContext) {}
-
-  /**
    * Display form to create a new record
    */
-  async create({}: HttpContext) {}
+  async create({ request, view }: HttpContext) {
+    const idPotager = await request.param('idPotager')
+
+    if (!idPotager) {
+      throw new Error('Potager not found')
+    }
+
+    const plantes = await Plante.query().select('name').orderBy('name', 'asc')
+    const names = plantes.map((plante) => plante.name)
+
+    return view.render('admin/plantations/create', { idPotager: idPotager, plantes: names })
+  }
 
   /**
    * Handle form submission for the create action
    */
-  async store({ request }: HttpContext) {}
+  async handleCreate({ request }: HttpContext) {}
 
   /**
    * Show individual record
@@ -29,10 +36,10 @@ export default class PlantationsController {
   /**
    * Handle form submission for the edit action
    */
-  async update({ params, request }: HttpContext) {}
+  async handleUpdate({ params, request }: HttpContext) {}
 
   /**
    * Delete record
    */
-  async destroy({ params }: HttpContext) {}
+  async handleDelete({ params }: HttpContext) {}
 }

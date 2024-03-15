@@ -1,0 +1,37 @@
+@let(title="Mon potager 🌱")
+@let(dashboard=true)
+
+@include('partials/header')
+@include('admin/aside_bar')
+<div class="sm:ml-64">
+  <div class="p-10">
+    @!component('components/breadcrumb', { breadcrumbs: {
+    'Mon potager': route('admin.monpotager.index'),
+    'Gérer mon potager' : route('admin.monpotager.show', { idPotager: idPotager }),
+    'Ajouter une plantation': false
+    }
+    })
+  </div>
+  <div class="p-4">
+    <p class="text-2xl font-bold mb-4 py-4">Ajouter une plantation</p>
+    <form action='' class="max-w-sm mt-5" method="post" enctype="multipart/form-data">
+      {{ csrfField() }}
+      @!component('components/input', { title: 'name', label: "Nom", required: true})
+      @!component('components/input', { title: 'plante', label: "Plante", required: true, type: 'select', options: plantes})
+      @!component('components/button', { text: 'Ajouter la plantation' })
+    </form>
+  </div>
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      var textarea = document.getElementById("description");
+
+      textarea.addEventListener("input", function () {
+        if (textarea.value.length > 180) {
+          textarea.value = textarea.value.slice(0, 180);
+        }
+      });
+    });
+  </script>
+</div>
+@end
+@include('partials/footer')
