@@ -1,26 +1,29 @@
 import { BaseSchema } from '@adonisjs/lucid/schema'
 
 export default class extends BaseSchema {
-  protected tableName = 'plante_positions'
+  protected tableName = 'plantations'
 
   async up() {
     this.schema.createTable(this.tableName, (table) => {
       table.increments('id')
-      table.integer('x').notNullable()
-      table.integer('y').notNullable()
       table
-        .integer('plante_id')
+        .integer('idPlante')
+        .unsigned()
         .notNullable()
         .references('id')
         .inTable('plantes')
         .onDelete('CASCADE')
+      table.dateTime('dateArrosage').notNullable()
       table
-        .integer('user_id')
-        .notNullable()
+        .integer('idPotager')
+        .unsigned()
         .notNullable()
         .references('id')
-        .inTable('users')
+        .inTable('potagers')
         .onDelete('CASCADE')
+      table.string('name').notNullable()
+      // 0: à arroser, 1: arrosé, 2: récolté
+      table.integer('state').notNullable().checkIn(['0', '1', '2'])
 
       table.timestamp('created_at')
       table.timestamp('updated_at')

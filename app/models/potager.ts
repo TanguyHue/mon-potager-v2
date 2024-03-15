@@ -1,7 +1,7 @@
 import { DateTime } from 'luxon'
 import { BaseModel, column, hasMany } from '@adonisjs/lucid/orm'
 import type { HasMany } from '@adonisjs/lucid/types/relations'
-import PlantePosition from '#models/plante_position'
+import Plantation from '#models/plantation'
 
 export default class Potager extends BaseModel {
   @column({ isPrimary: true })
@@ -14,12 +14,6 @@ export default class Potager extends BaseModel {
   declare description: string
 
   @column()
-  declare size_x: number
-
-  @column()
-  declare size_y: number
-
-  @column()
   declare user_id: number
 
   @column.dateTime({ autoCreate: true })
@@ -28,6 +22,6 @@ export default class Potager extends BaseModel {
   @column.dateTime({ autoCreate: true, autoUpdate: true })
   declare updatedAt: DateTime
 
-  @hasMany(() => PlantePosition)
-  declare PlantePosition: HasMany<typeof PlantePosition>
+  @hasMany(() => Plantation)
+  declare plantations: HasMany<typeof Plantation>
 }

@@ -8,8 +8,6 @@ export default class extends BaseSchema {
       table.increments('id')
       table.string('name').notNullable()
       table.text('description')
-      table.integer('size_x').notNullable()
-      table.integer('size_y').notNullable()
       table.integer('user_id').notNullable().references('id').inTable('users').onDelete('CASCADE')
 
       table.timestamp('created_at')

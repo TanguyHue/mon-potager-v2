@@ -19,11 +19,14 @@ export default class extends BaseSchema {
         .inTable('users')
         .onDelete('CASCADE')
       table.integer('plante_id').unsigned().references('id').inTable('plantes').onDelete('CASCADE')
+      // 0: en attente, 1: accepté, 2: refusé
       table.integer('status').notNullable().checkIn(['0', '1', '2'])
       table.string('field').notNullable()
       table.string('old_value').notNullable()
       table.string('new_value').notNullable()
+      // 0: ne pas montrer, 1: montrer
       table.integer('show_creator').notNullable().checkIn(['0', '1']).defaultTo('1')
+      // 0: ne pas montrer, 1: montrer
       table.integer('show_target').notNullable().checkIn(['0', '1']).defaultTo('1')
 
       table.timestamp('created_at')

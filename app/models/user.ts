@@ -4,7 +4,6 @@ import hash from '@adonisjs/core/services/hash'
 import { compose } from '@adonisjs/core/helpers'
 import { BaseModel, column, hasMany } from '@adonisjs/lucid/orm'
 import type { HasMany } from '@adonisjs/lucid/types/relations'
-import PlantePosition from '#models/plante_position'
 import Tache from '#models/tache'
 import Plante from '#models/plante'
 import DemandeChangement from '#models/demande_changement'
@@ -35,9 +34,6 @@ export default class User extends compose(BaseModel, AuthFinder) {
 
   @column.dateTime({ autoCreate: true, autoUpdate: true })
   declare updatedAt: DateTime | null
-
-  @hasMany(() => PlantePosition)
-  declare potagers: HasMany<typeof PlantePosition>
 
   @hasMany(() => Tache)
   declare taches: HasMany<typeof Tache>
