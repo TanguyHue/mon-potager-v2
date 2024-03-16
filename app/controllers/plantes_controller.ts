@@ -110,7 +110,7 @@ export default class PlantesController {
           await DemandeChangement.query()
             .where('field', key)
             .where('user_targetId', plante.user_id)
-            .where('user_creatorId', userId as number)
+            .where('user_creatorId', userId as string)
             .where('plante_id', plante.id)
             .first()
         ) {
@@ -118,7 +118,7 @@ export default class PlantesController {
             const lastIcon = await DemandeChangement.query()
               .where('field', 'icon')
               .where('user_targetId', plante.user_id)
-              .where('user_creatorId', userId as number)
+              .where('user_creatorId', userId as string)
               .where('plante_id', plante.id)
               .select('new_value')
 
@@ -132,7 +132,7 @@ export default class PlantesController {
           await DemandeChangement.query()
             .where('field', key)
             .where('user_targetId', plante.user_id)
-            .where('user_creatorId', userId as number)
+            .where('user_creatorId', userId as string)
             .where('plante_id', plante.id)
             .update(demande)
         } else {

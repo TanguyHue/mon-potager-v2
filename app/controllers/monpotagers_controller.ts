@@ -22,7 +22,7 @@ export default class MonpotagersController {
     if (!userId) {
       throw new Error('User not found')
     }
-    const { name, description, longueur, largeur } = await request.validateUsing(createPotager, {
+    const { name, description } = await request.validateUsing(createPotager, {
       meta: {
         userId: auth.user?.id,
       },
@@ -31,8 +31,6 @@ export default class MonpotagersController {
     await Potager.create({
       name,
       description,
-      size_x: longueur,
-      size_y: largeur,
       user_id: userId,
     })
     return this.index({ view, auth } as HttpContext)

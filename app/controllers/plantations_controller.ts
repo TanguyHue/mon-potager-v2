@@ -17,29 +17,4 @@ export default class PlantationsController {
 
     return view.render('admin/plantations/create', { idPotager: idPotager, plantes: names })
   }
-
-  /**
-   * Handle form submission for the create action
-   */
-  async handleCreate({ request }: HttpContext) {}
-
-  /**
-   * Show individual record
-   */
-  async show({ params }: HttpContext) {}
-
-  /**
-   * Edit individual record
-   */
-  async edit({ params }: HttpContext) {}
-
-  /**
-   * Handle form submission for the edit action
-   */
-  async handleUpdate({ params, request }: HttpContext) {}
-
-  /**
-   * Delete record
-   */
-  async handleDelete({ params }: HttpContext) {}
 }
