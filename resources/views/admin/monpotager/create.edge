@@ -17,10 +17,6 @@
       {{ csrfField() }}
       @!component('components/input', { title: 'name', label: "Nom du potager", required: true})
       @!component('components/input', { title: 'description', label: 'Description', type: 'textarea', resize: true})
-      @!component('components/input', { title: 'longueur', label: 'Longueur du potager', type: 'numberInput', min: 1,
-      max: 10, name: 'Longueur', svgIcon: 'uil:edit'})
-      @!component('components/input', { title: 'largeur', label: 'Largeur du potager', type: 'numberInput', min: 1,
-      max: 10, name: 'Largeur', svgIcon: 'uil:edit', required: true})
       @!component('components/button', { text: 'Créer mon potager' })
     </form>
   </div>

@@ -1,6 +1,9 @@
 import type { HttpContext } from '@adonisjs/core/http'
 import Potager from '#models/potager'
 import { createPotager } from '#validators/potager'
+import Plantation from '#models/plantation'
+import Plante from '#models/plante'
+import { DateTime } from 'luxon'
 
 export default class MonpotagersController {
   async index({ view, auth }: HttpContext) {
@@ -37,7 +40,10 @@ export default class MonpotagersController {
   }
 
   async show({ view, request, auth }: HttpContext) {
-    const idPotager = request.param('idPotager')
+    const idPotager = request.param('idPotager', 0)
+    if (idPotager === 'undefined' || idPotager === 0) {
+      return false
+    }
     const potager = await Potager.find(idPotager)
 
     if (!potager) {
@@ -47,8 +53,47 @@ export default class MonpotagersController {
     if (potager.user_id !== auth.user?.id) {
       throw new Error('Potager not found')
     }
+    const plantations = await Plantation.query()
+      .where('id_potager', idPotager)
+      .select('name', 'state', 'idPlante', 'dateArrosage', 'createdAt')
+      .preload('plante', (query) => {
+        query.select('icon', 'delai_arrosage', 'name', 'delai_recolte')
+      })
+    const today = DateTime.now()
+    const plantationsFormatted = await Promise.all(
+      plantations.map(async (plante) => {
+        const dateRecolte = plante.createdAt
+          .plus({ days: plante.plante.delai_recolte })
+          .toFormat('dd/MM/yyyy')
+        if (plante.state === 0) {
+          const delaiArrosage = plante.plante.delai_arrosage
+          if (!delaiArrosage) {
+            throw new Error('Plante not found')
+          }
 
-    return view.render('admin/monpotager/show', { potager })
+          if (plante.dateArrosage < today.minus({ days: delaiArrosage })) {
+            plante.state = 1
+            await Plantation.query().where('idPlante', plante.idPlante).update({ state: 1 })
+          }
+          return {
+            name: plante.name,
+            state: plante.state,
+            icon: plante.plante.icon,
+            plantename: plante.plante.name,
+            recolte: dateRecolte,
+          }
+        } else {
+          return {
+            name: plante.name,
+            state: plante.state,
+            icon: plante.plante.icon,
+            plantename: plante.plante.name,
+            recolte: dateRecolte,
+          }
+        }
+      })
+    )
+    return view.render('admin/monpotager/show', { potager, plantations: plantationsFormatted })
   }
 
   async handleUpdate({ response, session }: HttpContext) {

@@ -18,7 +18,10 @@ export default class PlantationsController {
     const plantes = await Plante.query().select('name').orderBy('name', 'asc')
     const names = plantes.map((plante) => plante.name)
 
-    return view.render('admin/plantations/create', { idPotager: idPotager, plantes: names })
+    return view.render('admin/plantations/create', {
+      idPotager: idPotager,
+      plantes: names,
+    })
   }
 
   async handleCreate({ request, response }: HttpContext) {

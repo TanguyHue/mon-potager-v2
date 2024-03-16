@@ -1,5 +1,7 @@
 import { DateTime } from 'luxon'
-import { BaseModel, column } from '@adonisjs/lucid/orm'
+import { BaseModel, belongsTo, column } from '@adonisjs/lucid/orm'
+import Plante from '#models/plante'
+import * as relations from '@adonisjs/lucid/types/relations'
 
 export default class Plantation extends BaseModel {
   @column({ isPrimary: true })
@@ -7,6 +9,11 @@ export default class Plantation extends BaseModel {
 
   @column()
   declare idPlante: string
+
+  @belongsTo(() => Plante, {
+    foreignKey: 'idPlante',
+  })
+  declare plante: relations.BelongsTo<typeof Plante>
 
   @column()
   declare dateArrosage: DateTime
