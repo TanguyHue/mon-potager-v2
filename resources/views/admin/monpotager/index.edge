@@ -4,14 +4,14 @@
 @include('partials/header')
 @include('admin/aside_bar')
 <div class="sm:ml-64">
-  <div class="p-10">
+  <div class="md:px-10 py-10 px-2">
     @!component('components/breadcrumb', { breadcrumbs: {
     'Mon potager': false
     }
     })
   </div>
   @if(idPotager)
-  <div class="w-full px-8 py-4">
+  <div class="w-full md:px-8 px-2 py-4">
     <a href="{{ route('admin.monpotager.create')}}">
       <button type="button" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none
        focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center mb-5

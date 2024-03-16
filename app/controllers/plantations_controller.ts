@@ -104,11 +104,20 @@ export default class PlantationsController {
     return response.redirect().toRoute('admin.monpotager.show', { idPotager })
   }
 
-  async handleDelete({ request, response }: HttpContext) {
+  async handleDelete({ request, response, auth }: HttpContext) {
     const idPotager = request.param('idPotager')
     const idPlantation = request.param('idPlantation')
 
-    const plantation = await Plantation.findOrFail(idPlantation)
+    const plantation = await Plantation.query().where('id', idPlantation).preload('potager').first()
+
+    if (!plantation) {
+      throw new Error('Plantation not found')
+    }
+
+    if (plantation.potager.user_id !== auth.user?.id) {
+      throw new Error('You are not allowed to delete this plantation')
+    }
+
     await plantation.delete()
 
     return response.redirect().toRoute('admin.monpotager.show', { idPotager })

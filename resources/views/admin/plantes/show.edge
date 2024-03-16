@@ -4,17 +4,20 @@
 @include('partials/header')
 @include('admin/aside_bar')
 <div class="sm:ml-64">
-  <div class="p-10">
+  <div class="md:px-10 px-2 py-10">
     @!component('components/breadcrumb', { breadcrumbs: {
     'Plantes disponibles': route('admin.plantes.index'),
     'Gérer une plante': false
     }
     })
   </div>
-  <div class="p-10">
+  <div class="md:px-10 px-2 py-10">
     <div class="flex items-center">
       <img src="{{ plante.icon }}" alt="{{ plante.name }}" class="w-8 h-8 rounded-lg mr-4 mt-1" />
-      <h1 class="text-3xl font-bold">{{ plante.name }}</h1>
+      <h1 class="text-3xl font-bold mr-2">{{ plante.name }}</h1>
+      @if(plante.user_id === auth.user.id)
+      @svg('material-symbols:award-star-rounded', { width: 20, height: 20})
+      @end
     </div>
 
     <p class="dark:text-gray-200 text-gray-700 my-2">Durée avant la récolte : {{ plante.delai_recolte }} jour(s)</p>
@@ -40,7 +43,8 @@
         'numberInput', min: 1, name: 'Délai avant récolte', value: plante.delai_recolte, svgIcon:
         'material-symbols:nest-clock-farsight-analog-outline' })
         @!component('components/input', { title: 'delai_arrosage', label: "Délai d'arrosage en jour", type:
-      'numberInput', min: 1, name: "Délai d'arrosage", svgIcon: 'material-symbols:water-drop', value: plante.delai_arrosage})
+        'numberInput', min: 1, name: "Délai d'arrosage", svgIcon: 'material-symbols:water-drop', value:
+        plante.delai_arrosage})
         @!component('components/input', { title: 'icon', label: "Modifier l'illustration", type: 'file'})
         @!component('components/button', { text: 'Modifier la plante' })
       </form>

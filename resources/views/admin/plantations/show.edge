@@ -4,7 +4,7 @@
 @include('partials/header')
 @include('admin/aside_bar')
 <div class="sm:ml-64">
-  <div class="p-10">
+  <div class="md:px-10 px-2 py-10">
     @!component('components/breadcrumb', { breadcrumbs: {
     'Mon potager': route('admin.monpotager.index'),
     'Gérer mon potager' : route('admin.monpotager.show', { idPotager: idPotager }),
@@ -70,7 +70,7 @@
         method="post" class="mx-4">
         {{ csrfField() }}
         <input type="submit"
-          class="bg-green-600 font-bold px-4 py-2 rounded-lg transition-colors delay-75 hover:bg-green-400 cursor-pointer"
+          class="bg-green-600 font-bold px-4 py-2 rounded-lg transition-colors delay-75 hover:bg-green-400 cursor-pointer text-white"
           value="Récolter ✅"></input>
       </form>
       @end
