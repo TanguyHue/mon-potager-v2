@@ -24,7 +24,7 @@
       <form id="arroser" method="post" action="{{ route('admin.monpotager.plantations.arrosage', { idPotager:
         idPotager, idPlantation: plantation.id }) }}" target="dummyframe">
         <input type="submit"
-          class="bg-blue-600 font-bold px-4 py-2 rounded-lg transition-colors delay-75 hover:bg-blue-400 cursor-pointer"
+          class="bg-blue-600 font-bold px-4 py-2 rounded-lg transition-colors delay-75 hover:bg-blue-400 cursor-pointer text-white"
           value="Arroser ! 💧"></input>
         {{ csrfField() }}
       </form>
@@ -89,9 +89,8 @@
       <p class="mb-2">Délai d'arrosage: {{ plantation.plante.delai_arrosage }} jours</p>
       <a href="{{ route('admin.plantes.show', { id: plantation.plante.id }) }}">
         <button
-          class="my-2 bg-blue-600 font-bold px-4 py-2 rounded-lg transition-colors delay-75 hover:bg-blue-400 cursor-pointer">Voir
-          la
-          plante
+          class="my-2 bg-blue-600 text-sm font-medium px-4 py-2 rounded-lg transition-colors delay-75 hover:bg-blue-400 cursor-pointer text-white">
+          Voir la plante
         </button>
       </a>
     </div>
@@ -112,7 +111,7 @@
       method="post">
       {{ csrfField() }}
       <input type="submit"
-        class="bg-red-600 font-bold px-4 py-2 rounded-lg transition-colors delay-75 hover:bg-red-400 cursor-pointer"
+        class="text-white bg-red-600 font-bold px-4 py-2 rounded-lg transition-colors delay-75 hover:bg-red-400 cursor-pointer"
         value="Supprimer la plantation"></input>
     </form>
   </div>

@@ -26,17 +26,17 @@
           @if(plantation.state === 2 || plantation.state === 3)
             border-green-500
           @else
-            border-white
+            dark:border-white
           @end
         @end
-        border rounded-lg w-full h-min my-8 py-2 hover:bg-gray-900 delay-75 transition-colors">
+        border rounded-lg w-full h-min my-8 py-2 hover:bg-gray-100 dark:hover:bg-gray-900 delay-75 transition-colors">
         <div class="flex items-center">
           <div class="flex items-center w-1/3">
             <div class="ms-5">
               <h2 class="text-xl font-bold">{{ plantation.name }}</h2>
               <div class="flex">
                 <img src="{{ plantation.icon }}" alt="{{ plantation.name }}" class="w-8 h-8 rounded-lg mr-2" />
-                <span class="text-gray-400 mt-1 font-bold">{{ plantation.plantename }}</span>
+                <span class="text-gray-600 dark:text-gray-400 mt-1 font-bold">{{ plantation.plantename }}</span>
               </div>
             </div>
           </div>
