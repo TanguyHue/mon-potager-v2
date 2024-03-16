@@ -7,7 +7,7 @@ export default class extends BaseSchema {
     this.schema.createTable(this.tableName, (table) => {
       table.string('id').primary().defaultTo(this.db.rawQuery('(UUID())').knexQuery)
       table.string('id_plante').references('id').inTable('plantes').onDelete('CASCADE')
-      table.dateTime('date_arrosage').notNullable()
+      table.timestamp('date_arrosage')
       table.string('id_potager').references('id').inTable('potagers').onDelete('CASCADE')
       table.string('name').notNullable()
       // 0: à arroser, 1: arrosé, 2: récolté

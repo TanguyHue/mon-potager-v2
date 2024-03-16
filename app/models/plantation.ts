@@ -16,9 +16,6 @@ export default class Plantation extends BaseModel {
   declare plante: relations.BelongsTo<typeof Plante>
 
   @column()
-  declare dateArrosage: DateTime
-
-  @column()
   declare idPotager: string
 
   @column()
@@ -32,4 +29,7 @@ export default class Plantation extends BaseModel {
 
   @column.dateTime({ autoCreate: true, autoUpdate: true })
   declare updatedAt: DateTime
+
+  @column.dateTime()
+  declare dateArrosage: DateTime
 }

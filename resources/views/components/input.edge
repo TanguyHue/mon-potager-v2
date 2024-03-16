@@ -54,7 +54,11 @@ dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder=""
   focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 
   dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" {{ required? 'required' : '' }}>
     @each(option in options)
-    <option value="{{option}}" {{ option == old(title)? 'selected' : '' }}>{{ option }}</option>
+    @if(option == old(title) || option == defaultValue)
+    <option value="{{option}}" selected>{{ option }}</option>
+    @else
+    <option value="{{option}}">{{ option }}</option>
+    @end
     @end
   </select>
   
@@ -65,8 +69,11 @@ dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder=""
   <input type="{{type || " texte"}}" id="{{title}}" name="{{title}}" value="{{ old(title) || '' }}" class="bg-gray-50 border border-gray-300 text-gray-900 
   text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 
   block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 
-dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" {{ placeholder?
-    `placeholder=${placeholder}` : '' }} {{ required? 'required' : '' }} />
+dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+@if(placeholder) 
+  placeholder="{{placeholder}}"
+@end
+{{ required? 'required' : '' }} />
   @end
   @inputError(title)
   @each(message in $messages)

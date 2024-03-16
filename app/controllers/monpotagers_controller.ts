@@ -2,7 +2,6 @@ import type { HttpContext } from '@adonisjs/core/http'
 import Potager from '#models/potager'
 import { createPotager } from '#validators/potager'
 import Plantation from '#models/plantation'
-import Plante from '#models/plante'
 import { DateTime } from 'luxon'
 
 export default class MonpotagersController {
@@ -55,7 +54,7 @@ export default class MonpotagersController {
     }
     const plantations = await Plantation.query()
       .where('id_potager', idPotager)
-      .select('name', 'state', 'idPlante', 'dateArrosage', 'createdAt')
+      .select('name', 'state', 'idPlante', 'dateArrosage', 'createdAt', 'id')
       .preload('plante', (query) => {
         query.select('icon', 'delai_arrosage', 'name', 'delai_recolte')
       })
@@ -75,7 +74,13 @@ export default class MonpotagersController {
             plante.state = 1
             await Plantation.query().where('idPlante', plante.idPlante).update({ state: 1 })
           }
+
+          if (dateRecolte < today.toFormat('dd/MM/yyyy')) {
+            plante.state = 2
+            await Plantation.query().where('idPlante', plante.idPlante).update({ state: 2 })
+          }
           return {
+            id: plante.id,
             name: plante.name,
             state: plante.state,
             icon: plante.plante.icon,
@@ -84,6 +89,7 @@ export default class MonpotagersController {
           }
         } else {
           return {
+            id: plante.id,
             name: plante.name,
             state: plante.state,
             icon: plante.plante.icon,
@@ -93,6 +99,24 @@ export default class MonpotagersController {
         }
       })
     )
+
+    plantationsFormatted.sort((a, b) => {
+      if (a.state === 2 && b.state !== 2) {
+        return -1
+      }
+      if (a.state !== 2 && b.state === 2) {
+        return 1
+      }
+      if (a.state === 1 && b.state !== 1 && b.state !== 2) {
+        return -1
+      }
+      if (a.state !== 1 && a.state !== 2 && b.state === 1) {
+        return 1
+      }
+      return 0
+    })
+
+    console.log(plantationsFormatted)
     return view.render('admin/monpotager/show', { potager, plantations: plantationsFormatted })
   }
 
@@ -109,7 +133,7 @@ export default class MonpotagersController {
     }
 
     if (potager.user_id !== auth.user?.id) {
-      throw new Error('Potager not found')
+      throw new Error('Unauthorized access to potager')
     }
 
     await potager.delete()

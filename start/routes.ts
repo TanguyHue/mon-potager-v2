@@ -47,6 +47,16 @@ router
               .group(() => {
                 router.get('/create', [PlantationsController, 'create']).as('create')
                 router.post('/create', [PlantationsController, 'handleCreate']).as('store')
+                router.get('/show/:idPlantation', [PlantationsController, 'show']).as('show')
+                router
+                  .post('/show/:idPlantation', [PlantationsController, 'handleUpdate'])
+                  .as('update')
+                router
+                  .post('/delete/:idPlantation', [PlantationsController, 'handleDelete'])
+                  .as('delete')
+                router
+                  .post('/arrosage/:idPlantation', [PlantationsController, 'arrosage'])
+                  .as('arrosage')
               })
               .as('plantations')
               .prefix('plantations')

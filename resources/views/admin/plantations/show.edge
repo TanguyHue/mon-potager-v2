@@ -1,0 +1,101 @@
+@let(title="Mon potager 🌱")
+@let(dashboard=true)
+
+@include('partials/header')
+@include('admin/aside_bar')
+<div class="sm:ml-64">
+  <div class="p-10">
+    @!component('components/breadcrumb', { breadcrumbs: {
+    'Mon potager': route('admin.monpotager.index'),
+    'Gérer mon potager' : route('admin.monpotager.show', { idPotager: idPotager }),
+    'Plantation': false
+    }
+    })
+  </div>
+  <div class="p-4 mx-4">
+    <div class="flex items-center mt-8 my-4">
+      <div class="mr-4">
+        <h1 class="text-2xl font-bold mr-8">{{ plantation.name }}</h1>
+        <p>{{ plantation.plante.name }}
+          <img src="{{ plantation.plante.icon }}" alt="{{ plantation.plante.name }}" class="w-8 h-8 inline-block">
+        </p>
+      </div>
+      <iframe name="dummyframe" id="dummyframe" style="display: none;"></iframe>
+      <form id="arroser" method="post" action="{{ route('admin.monpotager.plantations.arrosage', { idPotager:
+        idPotager, idPlantation: plantation.id }) }}" target="dummyframe">
+        <input type="submit"
+          class="bg-blue-600 font-bold px-4 py-2 rounded-lg transition-colors delay-75 hover:bg-blue-400 cursor-pointer"
+          value="Arroser ! 💧"></input>
+          {{ csrfField() }}
+      </form>
+
+      <script>
+        document.getElementById('arroser').addEventListener('submit', function () {
+          event.preventDefault();
+          document.getElementById('arroser').querySelector('input').disabled = true;
+          fetch(event.target.action, {
+            method: 'POST',
+            body: new URLSearchParams(new FormData(event.target)) // event.target is the form
+          }).then((response) => {
+            if (!response.ok) {
+              throw new Error(`HTTP error! Status: ${response.status}`);
+            }
+            document.getElementById('arroser').querySelector('input').disabled = false;
+            return response.json();
+          }).then((body) => {
+            document.getElementById('dateArrosage').innerHTML = "Date du dernier arrosage : " + body.dateArrosage;
+            document.getElementById('arroser').querySelector('input').value = "Arrosage effectué !";
+            document.getElementById('arroser').querySelector('input').style.backgroundColor = "green";
+            setTimeout(() => {
+              document.getElementById('arroser').querySelector('input').value = "Arrosé ! 💧";
+              document.getElementById('arroser').querySelector('input').style.backgroundColor = "";
+              document.getElementById('arroser').querySelector('input').disabled = false;
+            }, 5000);
+          }).catch((error) => {
+            console.error('Error:', error);
+            document.getElementById('arroser').querySelector('input').value = "Erreur lors de l'arrosage";
+            document.getElementById('arroser').querySelector('input').style.backgroundColor = "red";
+            setTimeout(() => {
+              document.getElementById('arroser').querySelector('input').value = "Arrosé ! 💧";
+              document.getElementById('arroser').querySelector('input').style.backgroundColor = "";
+              document.getElementById('arroser').querySelector('input').disabled = false;
+            }, 5000);
+            document.getElementById('arroserBouton').querySelector('input').disabled = false;
+          });
+        });
+      </script>
+      <form action="{{ route('admin.monpotager.plantations.delete', { idPotager: idPotager, idPlantation: plantation.id }) }}"
+        method="post" class="mx-4">
+        {{ csrfField() }}
+        <input type="submit"
+          class="bg-green-600 font-bold px-4 py-2 rounded-lg transition-colors delay-75 hover:bg-green-400 cursor-pointer"
+          value="Récolter ✅"></input>
+      </form>
+    </div>
+    <div>
+
+    </div>
+    <p class="text-2xl font-bold mb-4 py-4">Informations</p>
+    <p class="">Date de plantation : {{ dates.dateCreation }}</p>
+    <p id="dateArrosage">Date du dernier arrosage : {{ dates.dateArrosage }}</p>
+  </div>
+  <div class="p-4 mx-4">
+    <p class="text-2xl font-bold mb-4 py-4">Modifier la plantation</p>
+    <form action='' class="max-w-sm mt-5" method="post" enctype="multipart/form-data">
+      {{ csrfField() }}
+      @!component('components/input', { title: 'name', label: "Nom", required: true, placeholder: plantation.name})
+      @!component('components/input', { title: 'plante', label: "Plante", required: true, type: 'select', options:
+      plantes, defaultValue: plantation.plante.name})
+      @!component('components/button', { text: 'Ajouter la plantation' })
+    </form>
+  </div>
+  <div class="p-4 mx-4">
+    <form action="{{ route('admin.monpotager.plantations.delete', { idPotager: idPotager, idPlantation: plantation.id }) }}"
+      method="post">
+      {{ csrfField() }}
+      <input type="submit"
+        class="bg-red-600 font-bold px-4 py-2 rounded-lg transition-colors delay-75 hover:bg-red-400 cursor-pointer"
+        value="Supprimer la plantation"></input>
+    </form> 
+</div>
+@include('partials/footer')
