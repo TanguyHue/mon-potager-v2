@@ -29,6 +29,7 @@ export default class extends BaseSeeder {
         dateArrosage: DateTime.now().minus({ days: 10 }).toFormat('yyyy-MM-dd'),
         idPotager: potagerId?.id,
         name: 'Carotte',
+        createdAt: DateTime.now().minus({ days: 120 }),
       },
       {
         idPlante: patateId,

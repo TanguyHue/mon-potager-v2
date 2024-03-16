@@ -61,46 +61,61 @@ export default class MonpotagersController {
     const today = DateTime.now()
     const plantationsFormatted = await Promise.all(
       plantations.map(async (plante) => {
-        const dateRecolte = plante.createdAt
-          .plus({ days: plante.plante.delai_recolte })
-          .toFormat('dd/MM/yyyy')
+        const dateRecolte = plante.createdAt.plus({ days: plante.plante.delai_recolte })
         if (plante.state === 0) {
           const delaiArrosage = plante.plante.delai_arrosage
           if (!delaiArrosage) {
             throw new Error('Plante not found')
           }
 
-          if (plante.dateArrosage < today.minus({ days: delaiArrosage })) {
-            plante.state = 1
-            await Plantation.query().where('idPlante', plante.idPlante).update({ state: 1 })
-          }
-
-          if (dateRecolte < today.toFormat('dd/MM/yyyy')) {
+          if (dateRecolte < today) {
             plante.state = 2
             await Plantation.query().where('idPlante', plante.idPlante).update({ state: 2 })
           }
+
+          if (plante.dateArrosage < today.minus({ days: delaiArrosage })) {
+            if (plante.state === 2) {
+              plante.state = 3
+              await Plantation.query().where('idPlante', plante.idPlante).update({ state: 3 })
+            } else {
+              plante.state = 1
+              await Plantation.query().where('idPlante', plante.idPlante).update({ state: 1 })
+            }
+          }
+
           return {
             id: plante.id,
             name: plante.name,
             state: plante.state,
             icon: plante.plante.icon,
             plantename: plante.plante.name,
-            recolte: dateRecolte,
+            recolte: dateRecolte.toFormat('dd/MM/yyyy'),
           }
         } else {
+          const delaiArrosage = plante.plante.delai_arrosage
+          if (plante.dateArrosage < today.minus({ days: delaiArrosage }) && plante.state === 2) {
+            plante.state = 3
+            await Plantation.query().where('idPlante', plante.idPlante).update({ state: 3 })
+          }
           return {
             id: plante.id,
             name: plante.name,
             state: plante.state,
             icon: plante.plante.icon,
             plantename: plante.plante.name,
-            recolte: dateRecolte,
+            recolte: dateRecolte.toFormat('dd/MM/yyyy'),
           }
         }
       })
     )
 
     plantationsFormatted.sort((a, b) => {
+      if (a.state === 3 && b.state !== 3) {
+        return -1
+      }
+      if (a.state !== 3 && b.state === 3) {
+        return 1
+      }
       if (a.state === 2 && b.state !== 2) {
         return -1
       }
@@ -116,7 +131,6 @@ export default class MonpotagersController {
       return 0
     })
 
-    console.log(plantationsFormatted)
     return view.render('admin/monpotager/show', { potager, plantations: plantationsFormatted })
   }
 

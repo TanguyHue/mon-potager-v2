@@ -26,7 +26,7 @@
         <input type="submit"
           class="bg-blue-600 font-bold px-4 py-2 rounded-lg transition-colors delay-75 hover:bg-blue-400 cursor-pointer"
           value="Arroser ! 💧"></input>
-          {{ csrfField() }}
+        {{ csrfField() }}
       </form>
 
       <script>
@@ -64,38 +64,56 @@
           });
         });
       </script>
-      <form action="{{ route('admin.monpotager.plantations.delete', { idPotager: idPotager, idPlantation: plantation.id }) }}"
+      @if(plantation.state == 2 || plantation.state == 3)
+      <form
+        action="{{ route('admin.monpotager.plantations.delete', { idPotager: idPotager, idPlantation: plantation.id }) }}"
         method="post" class="mx-4">
         {{ csrfField() }}
         <input type="submit"
           class="bg-green-600 font-bold px-4 py-2 rounded-lg transition-colors delay-75 hover:bg-green-400 cursor-pointer"
           value="Récolter ✅"></input>
       </form>
+      @end
     </div>
     <div>
+      <p class="text-2xl font-bold mb-4 py-4">Informations</p>
+      <p class="">Date de plantation : {{ dates.dateCreation }}</p>
+      <p id="dateArrosage">Date du dernier arrosage : {{ dates.dateArrosage }}</p>
+      <p class="">Date de récolte : {{ dates.dateRecolte }}</p>
 
+      <p class="text-lg font-bold py-4">Plante</p>
+      <p>Nom : {{ plantation.plante.name }}</p>
+      <p>Icone : <img src="{{ plantation.plante.icon }}" alt="{{ plantation.plante.name }}"
+          class="w-8 h-8 inline-block"></p>
+      <p>Délai de récolte : {{ plantation.plante.delai_recolte }} jours</p>
+      <p class="mb-2">Délai d'arrosage: {{ plantation.plante.delai_arrosage }} jours</p>
+      <a href="{{ route('admin.plantes.show', { id: plantation.plante.id }) }}">
+        <button
+          class="my-2 bg-blue-600 font-bold px-4 py-2 rounded-lg transition-colors delay-75 hover:bg-blue-400 cursor-pointer">Voir
+          la
+          plante
+        </button>
+      </a>
     </div>
-    <p class="text-2xl font-bold mb-4 py-4">Informations</p>
-    <p class="">Date de plantation : {{ dates.dateCreation }}</p>
-    <p id="dateArrosage">Date du dernier arrosage : {{ dates.dateArrosage }}</p>
   </div>
   <div class="p-4 mx-4">
     <p class="text-2xl font-bold mb-4 py-4">Modifier la plantation</p>
     <form action='' class="max-w-sm mt-5" method="post" enctype="multipart/form-data">
       {{ csrfField() }}
-      @!component('components/input', { title: 'name', label: "Nom", required: true, placeholder: plantation.name})
-      @!component('components/input', { title: 'plante', label: "Plante", required: true, type: 'select', options:
+      @!component('components/input', { title: 'name', label: "Nom", placeholder: plantation.name})
+      @!component('components/input', { title: 'plante', label: "Plante", type: 'select', options:
       plantes, defaultValue: plantation.plante.name})
-      @!component('components/button', { text: 'Ajouter la plantation' })
+      @!component('components/button', { text: 'Modifier la plantation' })
     </form>
   </div>
   <div class="p-4 mx-4">
-    <form action="{{ route('admin.monpotager.plantations.delete', { idPotager: idPotager, idPlantation: plantation.id }) }}"
+    <form
+      action="{{ route('admin.monpotager.plantations.delete', { idPotager: idPotager, idPlantation: plantation.id }) }}"
       method="post">
       {{ csrfField() }}
       <input type="submit"
         class="bg-red-600 font-bold px-4 py-2 rounded-lg transition-colors delay-75 hover:bg-red-400 cursor-pointer"
         value="Supprimer la plantation"></input>
-    </form> 
-</div>
-@include('partials/footer')
+    </form>
+  </div>
+  @include('partials/footer')

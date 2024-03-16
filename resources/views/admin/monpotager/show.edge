@@ -23,7 +23,7 @@
         @if(plantation.state === 1)
         border-red-500
         @else
-          @if(plantation.state === 2)
+          @if(plantation.state === 2 || plantation.state === 3)
             border-green-500
           @else
             border-white
@@ -44,7 +44,7 @@
             <p>À récolter le {{ plantation.recolte }}</p>
           </div>
           <div class="w-1/3 text-right">
-            @if(plantation.state === 1)
+            @if(plantation.state === 1 || plantation.state === 3)
             <p class="text-red-500 mr-5">À arroser</p>
             @else
             <p class="text-blue-500 mr-5">Arrosé !</p>

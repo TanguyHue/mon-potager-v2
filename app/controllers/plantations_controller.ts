@@ -1,6 +1,6 @@
 import type { HttpContext } from '@adonisjs/core/http'
 import Plante from '#models/plante'
-import { createPlantationValidator } from '#validators/plantation'
+import { createPlantationValidator, updatePlantationValidator } from '#validators/plantation'
 import Plantation from '#models/plantation'
 import { DateTime } from 'luxon'
 
@@ -59,6 +59,9 @@ export default class PlantationsController {
     const dates = {
       dateArrosage: plantation?.dateArrosage.toFormat('dd/MM/yyyy'),
       dateCreation: plantation?.createdAt.toFormat('dd/MM/yyyy'),
+      dateRecolte: plantation?.createdAt
+        .plus({ days: plantation.plante.delai_recolte })
+        .toFormat('dd/MM/yyyy'),
     }
 
     return view.render('admin/plantations/show', {
@@ -73,11 +76,29 @@ export default class PlantationsController {
     const idPotager = request.param('idPotager')
     const idPlantation = request.param('idPlantation')
 
-    const { name, dateArrosage } = request.only(['name', 'dateArrosage'])
-
     const plantation = await Plantation.findOrFail(idPlantation)
-    plantation.name = name
-    plantation.date_arrosage = dateArrosage
+
+    const { name, plante } = request.only(['name', 'plante'])
+
+    let planteId
+    if (plante) {
+      const planteTemp = await Plante.query().where('name', plante).select('id').first()
+      if (!planteTemp) {
+        throw new Error('Plante not found')
+      }
+      planteId = planteTemp.id
+    }
+
+    console.log(name, planteId)
+    updatePlantationValidator.validate({ id_plante: planteId, name })
+
+    if (name) {
+      plantation.name = name
+    }
+
+    if (planteId) {
+      plantation.idPlante = planteId
+    }
     await plantation.save()
 
     return response.redirect().toRoute('admin.monpotager.show', { idPotager })

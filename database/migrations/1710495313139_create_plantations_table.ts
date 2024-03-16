@@ -10,8 +10,8 @@ export default class extends BaseSchema {
       table.timestamp('date_arrosage')
       table.string('id_potager').references('id').inTable('potagers').onDelete('CASCADE')
       table.string('name').notNullable()
-      // 0: à arroser, 1: arrosé, 2: récolté
-      table.integer('state').notNullable().checkIn(['0', '1', '2']).defaultTo('0')
+      // 0: à arroser, 1: arrosé, 2: récolté et arrosé, 3: récolté et non arrosé  
+      table.integer('state').notNullable().checkIn(['0', '1', '2', '3']).defaultTo('0')
 
       table.timestamp('created_at')
       table.timestamp('updated_at')
