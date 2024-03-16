@@ -46,6 +46,7 @@ router
             router
               .group(() => {
                 router.get('/create', [PlantationsController, 'create']).as('create')
+                router.post('/create', [PlantationsController, 'handleCreate']).as('store')
               })
               .as('plantations')
               .prefix('plantations')
