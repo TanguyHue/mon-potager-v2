@@ -15,10 +15,10 @@
       <h1 class="text-2xl font-bold mr-4">Agenda</h1>
       <div class="flex items-center border dark:bg-slate-700 rounded-md dark:text-white">
         @svg('material-symbols:today-outline', {
-          width: 20,
-          height: 20,
-          class: 'mx-2'
-         })
+        width: 20,
+        height: 20,
+        class: 'mx-2'
+        })
         <select class="px-2 dark:bg-slate-700 border-none rounded-md ">
         </select>
       </div>
@@ -66,6 +66,8 @@
     function updateCalender(days) {
       const daysElement = document.querySelector('.grid')
 
+      const plantationMonth = plantation.filter(plantation => plantation.moisRecolte === Number(selected.value) + 1)
+
       daysElement.innerHTML = `
       <div>Lundi</div>
       <div class="col-start-2 row-start-1">Mardi</div>
@@ -79,7 +81,8 @@
           <div class="block">
             <div>
               <button
-                class="bg-blue-500 hover:bg-blue-300 transition delay-75 text-white rounded-full w-3/4 p-2 mx-4 font-bold">${day}</button>
+                class="transition delay-75 text-white rounded-full w-3/4 p-2 mx-4 font-bold ${plantationMonth.some(item => item.jourRecolte === Number(day)) ? 'bg-green-400 hover:bg-green-300" onclick="showInfo(' + (Number(day)) + ')"' : 'bg-blue-500 cursor-default"'
+            }>${day}</button>
             </div>
           </div>
         </div>`
@@ -94,6 +97,44 @@
       }).join('')
     }
 
+    function showInfo(index) {
+      const modal = document.createElement('div')
+      const plantationMonth = plantation.filter(plantation => plantation.moisRecolte === Number(selected.value) + 1)
+      const plantationOfTheDay = plantationMonth.filter(item => item.jourRecolte === index)
+      modal.innerHTML = `
+      <div class="fixed inset-0 bg-black bg-opacity-50 z-50 flex justify-center items-center p-2">
+        <div class="bg-white dark:bg-slate-700 p-4 rounded-md">
+          <div class="flex justify-between items-center">
+            <h2 class="text-xl font-bold mr-4">Récolte du ${index} ${monthsName[Number(selected.value)]}</h1>
+            <button onclick="this.parentElement.parentElement.parentElement.remove()" class="text-2xl font-bold hover:text-gray-200">&times;</button>
+          </div>${plantationOfTheDay.map((item, index) => `
+          <div class="flex items-center my-4">
+            <div class="flex items-center">
+              <img src="${item.icon}" alt="${item.namePlantation}" class="w-10 h-10 rounded-full">
+              <div class="ml-4">
+                <h2 class="font-bold">${item.namePlantation}</h2>
+                <p class="text-gray-500">${item.namePlante}</p>
+                <p class="text-gray-500 hover:text-gray-200 transition-colors delay-75"><a href='{{ route('admin.monpotager.index') }}/${item.idPotager}'>${item.namePotager}</a></p>
+              </div>
+            </div>
+          </div>`).join('')}
+        </div>
+      </div>`
+      document.body.appendChild(modal)
+    }
+
+    let plantation = []
+    @each(plantation in plantations)
+    plantation.push({
+      jourRecolte: Number('{{ plantation.dateRecolte }}'.split('/')[0].trim()),
+      moisRecolte: Number('{{ plantation.dateRecolte }}'.split('/')[1].trim()),
+      icon: '{{ plantation.icon }}',
+      namePlantation: '{{ plantation.namePlantation }}',
+      namePlante: '{{ plantation.namePlante }}',
+      namePotager: '{{ plantation.namePotager }}',
+      idPotager: '{{ plantation.idPotager }}'
+    })
+    @end
     updateCalender('{{ days }}'.split(','))
   </script>
 </div>

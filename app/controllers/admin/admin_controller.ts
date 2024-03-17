@@ -1,3 +1,5 @@
+import Plantation from '#models/plantation'
+import Potager from '#models/potager'
 import type { HttpContext } from '@adonisjs/core/http'
 import { DateTime } from 'luxon'
 
@@ -6,9 +8,8 @@ export default class AdminController {
     return view.render('admin/dashboard')
   }
 
-  agenda({ view }: HttpContext) {
+  async agenda({ view, auth }: HttpContext) {
     const date = new Date()
-    const day = date.getDate()
     const month = date.getMonth()
     const year = date.getFullYear()
 
@@ -18,8 +19,6 @@ export default class AdminController {
     if (!numberDaysInMonth) {
       throw new Error('Invalid month')
     }
-
-    console.log(firstDayOfMonth, numberDaysInMonth)
 
     let days = []
     for (let i = 1; i < 7 * 5 + 1; i++) {
@@ -32,10 +31,45 @@ export default class AdminController {
       }
     }
 
-    console.log(days)
+    const idUser = auth.use('web').user?.id
 
-    const today = `${year}-${month + 1}-${day}`
-    return view.render('admin/agenda/index', { today, days })
+    if (!idUser) {
+      throw new Error('User not found')
+    }
+
+    const plantation = await Plantation.query()
+      .preload('potager', (query) => {
+        query.where('user_id', idUser)
+      })
+      .preload('plante')
+      .select('createdAt', 'idPotager', 'idPlante', 'name')
+
+    let plantationFiltered = plantation.map((plantationItem) => {
+      if (plantationItem.$preloaded.potager !== null) {
+        return plantationItem
+      } else {
+        return null
+      }
+    })
+
+    plantationFiltered = plantationFiltered.filter((item) => item !== null)
+
+    const dataPlantation = plantationFiltered.map((item) => {
+      if (item !== null) {
+        return {
+          dateRecolte: item.createdAt
+            .plus({ days: item.plante.delai_recolte })
+            .toFormat(' dd/MM/yyyy'),
+          icon: item.plante.icon,
+          namePlantation: item.name,
+          namePlante: item.plante.name,
+          namePotager: item.potager.name,
+          idPotager: item.potager.id,
+        }
+      }
+    })
+
+    return view.render('admin/agenda/index', { days, plantations: dataPlantation })
   }
 
   taches({ view }: HttpContext) {
