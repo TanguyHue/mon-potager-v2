@@ -3,10 +3,20 @@
 
 @include('partials/header')
 @include('admin/aside_bar')
-<div class="ml-64 p-10">
-  @!component('components/breadcrumb', { breadcrumbs: {
-  'Agenda': false
-  }
-  })
+<div class="sm:ml-64">
+  <div class="md:px-10 px-2 py-10">
+    @!component('components/breadcrumb', { breadcrumbs: {
+    'Agenda': false
+    }
+    })
+  </div>
+  <div class="md:px-10 px-2 py-10">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.3.0/datepicker.min.js"></script>
+    <div class="relative max-w-sm">
+
+      <div inline-datepicker data-date="02/25/2022"></div>
+
+    </div>
+  </div>
 </div>
 @include('partials/footer')

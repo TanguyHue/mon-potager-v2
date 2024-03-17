@@ -12,7 +12,6 @@ export default class AuthController {
   }
 
   login({ view, session }: HttpContext) {
-    console.log(session.flashMessages.all())
     return view.render('auth/login', {
       errors: session.flashMessages.get('errorsBag'),
     })
