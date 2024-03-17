@@ -15,7 +15,5 @@ export const createPotager = vine.compile(
       return !potager
     }),
     description: vine.string().maxLength(180).optional(),
-    longueur: vine.number(),
-    largeur: vine.number(),
   })
 )
