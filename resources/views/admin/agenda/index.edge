@@ -11,12 +11,90 @@
     })
   </div>
   <div class="md:px-10 px-2 py-10">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.3.0/datepicker.min.js"></script>
-    <div class="relative max-w-sm">
-
-      <div inline-datepicker data-date="02/25/2022"></div>
-
+    <div class="flex items-center mb-4">
+      <h1 class="text-2xl font-bold mr-4">Agenda</h1>
+      <div class="flex items-center border dark:bg-slate-700 rounded-md dark:text-white">
+        @svg('material-symbols:today-outline', {
+          width: 20,
+          height: 20,
+          class: 'mx-2'
+         })
+        <select class="px-2 dark:bg-slate-700 border-none rounded-md ">
+        </select>
+      </div>
+    </div>
+    <div class="grid grid-cols-7 grid-rows-7 gap-7 text-center">
     </div>
   </div>
+  <script>
+    const selected = document.querySelector('select');
+    const monthsName = ['Janvier', 'Février', 'Mars', 'Avril', 'Mai', 'Juin', 'Juillet', 'Août', 'Septembre', 'Octobre', 'Novembre', 'Décembre'];
+    const getMonth = (index) => index == new Date().getMonth() ? 'selected' : '';
+    selected.innerHTML = monthsName.map((month, index) => `<option value="${index}" ${getMonth(index)}>${month}</option>`).join('');
+    selected.addEventListener('change', (e) => {
+      const month = Number(e.target.value)
+
+      const year = new Date().getFullYear()
+      const firstDayOfMonth = new Date(year, month, 1).getDay()
+      const numberDaysInMonth = new Date(year, month + 1, 0).getDate()
+
+      if (!numberDaysInMonth) {
+        throw new Error('Invalid month')
+      }
+
+      let days = []
+      for (let i = 1; i < 7 * 6 + 1; i++) {
+        if (i === 1 && firstDayOfMonth === 0) {
+          for (let j = 0; j < 6; j++) {
+            days.push('')
+          }
+          days.push(1)
+          days.push(2)
+        } else {
+          if (i < firstDayOfMonth) {
+            days.push('')
+          } else if (i > numberDaysInMonth + firstDayOfMonth - 1) {
+            days.push('')
+          } else {
+            days.push(i - firstDayOfMonth + 1)
+          }
+        }
+      }
+      updateCalender(days)
+    });
+
+    function updateCalender(days) {
+      const daysElement = document.querySelector('.grid')
+
+      daysElement.innerHTML = `
+      <div>Lundi</div>
+      <div class="col-start-2 row-start-1">Mardi</div>
+      <div class="col-start-3 row-start-1">Mercredi</div>
+      <div class="col-start-4 row-start-1">Jeudi</div>
+      <div class="col-start-5 row-start-1">Vendredi</div>
+      <div class="col-start-6 row-start-1">Samedi</div>
+      <div class="col-start-7 row-start-1">Dimanche</div>` + days.map((day, index) => {
+        if (day !== '') {
+          return `<div class="col-start-${index % 7 + 1} row-start-${Math.floor(index / 7) + 2}">
+          <div class="block">
+            <div>
+              <button
+                class="bg-blue-500 hover:bg-blue-300 transition delay-75 text-white rounded-full w-3/4 p-2 mx-4 font-bold">${day}</button>
+            </div>
+          </div>
+        </div>`
+        } else {
+          return `<div class="col-start-${index % 7 + 1} row-start-${Math.floor(index / 7) + 2}">
+          <div class="block">
+            <div>
+            </div>
+          </div>
+        </div>`
+        }
+      }).join('')
+    }
+
+    updateCalender('{{ days }}'.split(','))
+  </script>
 </div>
 @include('partials/footer')
