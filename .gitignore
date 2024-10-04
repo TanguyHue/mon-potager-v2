@@ -1,31 +1,34 @@
-# Dependencies and AdonisJS build
+# Node.js
 node_modules
-build
-tmp
+pnpm-lock.yaml
+package-lock.json
 
-# Secrets
-.env
-.env.local
-.env.production.local
-.env.development.local
+# AdonisJS specific
+/build/
+.tmp/
+public/hot
+public/storage
+coverage/
 
-public/assets/*
-!public/assets/video-bg-720p.mp4
-public/users/*
-!public/users/default.png
-public/plantes/*
-!public/plantes/default.png
+# Logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
 
-# Build tools specific
-npm-debug.log
-yarn-error.log
-
-# Editors specific
-.fleet
-.idea
-.vscode
-
-# Platform specific
+# OS generated files
 .DS_Store
+Thumbs.db
 
-database/seeders/user_seeder.ts
+# Environment variables
+.env
+
+# IDE specific
+.vscode/
+.idea/
+
+# Test and coverage reports
+/coverage/
+.nyc_output/
